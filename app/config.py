@@ -39,13 +39,13 @@ def cargar_config() -> Config:
     budget = os.getenv("GEMINI_THINKING_BUDGET", "").strip()
     return Config(
         gemini_api_key=os.getenv("GEMINI_API_KEY", "").strip(),
-        modelo=os.getenv("GEMINI_MODEL", "").strip() or "gemini-3.8-flash",
-        modelo_respaldo=os.getenv("GEMINI_FALLBACK_MODEL", "").strip() or "gemini-2.5-flash",
+        modelo=os.getenv("GEMINI_MODEL", "").strip() or "gemini-3.6-flash",
+        modelo_respaldo=os.getenv("GEMINI_FALLBACK_MODEL", "").strip() or "gemini-3.5-flash",
         thinking_level=os.getenv("GEMINI_THINKING_LEVEL", "").strip() or None,
         thinking_budget=int(budget) if budget else None,
         max_concurrencia=_int("MAX_CONCURRENCY", 2),
         intervalo_min_llm_s=_float("LLM_MIN_INTERVAL_S", 0.0),
-        timeout_llm_s=_float("LLM_TIMEOUT_S", 90.0),
-        max_reintentos=_int("LLM_MAX_RETRIES", 3),
+        timeout_llm_s=_float("LLM_TIMEOUT_S", 60.0),
+        max_reintentos=_int("LLM_MAX_RETRIES", 2),
         ruta_dataset=RAIZ / "data" / "conversaciones_prueba_fde.json",
     )

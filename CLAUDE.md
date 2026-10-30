@@ -25,7 +25,7 @@
    inválida, nunca 500.
 7. Salida consistente: 13 criterios, mismo orden, validados con Pydantic.
 8. Seguridad: la key solo en variables de entorno (`.env` en .gitignore, Secret en HF). Antes de
-   cada push: buscar "AIza" y "hf_" en el repo y en el historial.
+   cada push: buscar keys de Gemini ("AIza..." y las nuevas "AQ....") y tokens "hf_" en el repo y el historial.
 9. Simplicidad: sin bases de datos, colas, autenticación ni frameworks extra.
 
 ## Rúbrica aprobada (v1.0)
@@ -73,5 +73,5 @@ py -3.12 -m venv .venv && .venv/Scripts/python -m pip install -r requirements.tx
 .venv/Scripts/python eval/medir_precision.py --results results.json
 .venv/Scripts/python scripts/generar_resultados.py --url https://<space>.hf.space
 .venv/Scripts/python scripts/deploy_space.py
-git grep -nE "AIza[0-9A-Za-z_-]{35}|hf_[A-Za-z0-9]{30,}" $(git rev-list --all)   # secretos en historial
+git grep -nE "AIza[0-9A-Za-z_-]{35}|AQ\.[A-Za-z0-9_-]{30,}|hf_[A-Za-z0-9]{30,}" $(git rev-list --all)   # secretos en historial
 ```

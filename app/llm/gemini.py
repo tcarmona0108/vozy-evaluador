@@ -44,6 +44,7 @@ class ClienteGemini:
             response_mime_type="application/json",
             response_json_schema=esquema_json,
             thinking_config=thinking,
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
         )
 
     async def _espaciar(self) -> None:
