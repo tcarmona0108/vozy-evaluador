@@ -150,6 +150,22 @@ def _r9(conv: Conversacion, h: HechosCodigo, juicio: JuicioLLM | None, ctx: Cont
     return _desde_juicio(conv, h, juicio, ctx)
 
 
+_NO_APLICA = {
+    "R6": "El cliente no pidió beneficios y el agente no los ofreció.",
+    "R7": "El cliente no pidió un asesor humano ni manifestó una disputa.",
+    "R8": "El cliente no indicó que ya hubiera pagado.",
+}
+
+
+def _aplica_segun_hechos(criterio: str, r: RespuestaLLM) -> bool:
+    h = r.hechos
+    if criterio == "R6":
+        return h.cliente_pide_beneficio or h.agente_ofrece_beneficio
+    if criterio == "R7":
+        return h.cliente_pide_humano or h.cliente_disputa
+    return h.cliente_dice_ya_pago
+
+
 def combinar(conv: Conversacion, h: HechosCodigo, r: RespuestaLLM | None, ctx: Contexto) -> list[ResultadoCriterio]:
     juicios = {j.criterio_id: j for j in r.juicios} if r else {}
 
@@ -164,6 +180,12 @@ def combinar(conv: Conversacion, h: HechosCodigo, r: RespuestaLLM | None, ctx: C
     por_id["R5"] = _r5(conv, r, ctx)
     for cid in ("R6", "R7", "R8"):
         j = juicios.get(cid)
+        if j and r and j.resultado == "cumple" and not _aplica_segun_hechos(cid, r):
+            # Coherencia: los hechos extraídos dicen que el criterio no aplica. Solo se corrige un "cumple";
+            # un "no_cumple" nunca se descarta por esta vía.
+            ctx.discrepancias.append(f"{cid}: el LLM dijo 'cumple' pero sus hechos indican que no aplica; "
+                                     "se registra no_aplica")
+            j = j.model_copy(update={"resultado": "no_aplica", "explicacion": _NO_APLICA[cid]})
         por_id[cid] = _desde_juicio(conv, h, j, ctx) if j else resultado(cid, "no_evaluado", [], "LLM no disponible.")
     por_id["R9"] = _r9(conv, h, juicios.get("R9"), ctx)
     por_id["R10"] = _r10(conv, h, juicios.get("R10"), ctx)

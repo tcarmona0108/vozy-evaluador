@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from app.schemas import Conversacion, EspecificacionAgente
 
-VERSION_PROMPT = "1.1"
+VERSION_PROMPT = "1.2"
 CRITERIOS_LLM = ["R3", "R6", "R7", "R8", "R9", "R10"]
 
 
@@ -94,10 +94,12 @@ reclamo o tener comprobante, o contesta formalmente la deuda. La simple sorpresa
 Si no hay pedido explícito de una persona ni disputa, R7 es no_aplica.
 - R8 (aplica si el cliente dice que ya pagó): cumple si el agente pide fecha Y canal del pago, informa que puede \
 tardar hasta 48 horas en reflejarse y no insiste en un nuevo compromiso. no_cumple si falta algo de eso o insiste.
-- R9 (aplica si el agente tuvo turno para cerrar; si el cliente colgó antes, no_aplica): cumple si el último turno \
-del agente resume el resultado (monto y fecha del compromiso, o la gestión registrada: solicitud de asesor, \
-transferencia, pago reportado, horario para volver a llamar) Y se despide. Una transferencia anunciada cuenta como \
-gestión. no_cumple si solo se despide ("gracias, hasta luego") o cierra con una palabra.
+- R9 (aplica si el agente tuvo turno para cerrar; si el cliente colgó antes, no_aplica): evalúa el CIERRE, es \
+decir, los turnos finales del agente desde que queda definido el resultado. cumple si en el cierre el agente resume \
+el resultado (monto y fecha del compromiso, o la gestión registrada: solicitud de asesor, transferencia, pago \
+reportado, horario para volver a llamar) Y se despide. El resumen y la despedida pueden estar en turnos distintos \
+(p. ej. resume, pregunta si necesita algo más y luego se despide). Una transferencia anunciada cuenta como gestión. \
+no_cumple si en todo el cierre solo se despide ("gracias, hasta luego") o cierra con una palabra.
 - R10 (siempre aplica): cumple si el trato es respetuoso. no_cumple si hay amenaza o mención de acciones legales, \
 cobro jurídico, embargos o centrales de riesgo (tipo_falla_r10 = "amenaza_o_mencion_legal"), o presión: insistir en \
 pedir fecha después de que el cliente pidió un asesor, dijo que ya pagó o se negó, o urgir con consecuencias \

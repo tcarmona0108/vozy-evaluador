@@ -6,7 +6,8 @@
 - Enunciado: `docs/enunciado.md`. Referencia manual (SOLO para medir precisión):
   `eval/referencia_manual.json`. El servicio NUNCA la lee; `eval/` está fuera de la imagen Docker.
 - Stack: Python 3.12, FastAPI, Pydantic v2, Gradio (en /ui), Gemini (SDK `google-genai`),
-  rapidfuzz. Despliegue: Hugging Face Spaces (Docker, CPU Basic). Repo GitHub privado hasta el final.
+  rapidfuzz. Despliegue: Render (Docker, plan Free; HF Spaces Docker/Gradio exige plan PRO desde 2026).
+  URL: https://vozy-evaluador-lina.onrender.com — repo público (sin secretos en el historial).
 - Plazo: sábado 31-oct-2026 8:00 a. m. (COT). Meta interna: viernes 30 antes de 11:00 p. m.
 
 ## Principios no negociables
@@ -71,7 +72,7 @@ py -3.12 -m venv .venv && .venv/Scripts/python -m pip install -r requirements.tx
 .venv/Scripts/python -m pytest -q
 .venv/Scripts/python -m uvicorn app.main:app --reload --port 7860
 .venv/Scripts/python eval/medir_precision.py --results results.json
-.venv/Scripts/python scripts/generar_resultados.py --url https://<space>.hf.space
-.venv/Scripts/python scripts/deploy_space.py
+.venv/Scripts/python scripts/generar_resultados.py --url https://vozy-evaluador-lina.onrender.com
+.venv/Scripts/python scripts/deploy_render.py   # requiere RENDER_API_KEY en .env
 git grep -nE "AIza[0-9A-Za-z_-]{35}|AQ\.[A-Za-z0-9_-]{30,}|hf_[A-Za-z0-9]{30,}" $(git rev-list --all)   # secretos en historial
 ```

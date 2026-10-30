@@ -94,6 +94,21 @@ def test_cita_inventada_no_se_publica():
     assert all(c.texto in tr[c.turno - 1].texto for c in r7.evidencia)
 
 
+def test_coherencia_hechos_convierte_cumple_en_no_aplica():
+    # El LLM juzga R6 "cumple" aunque sus propios hechos dicen que nadie pidió ni ofreció beneficios.
+    llm = LLMFalso([respuesta(juicios={"R6": juicio("R6", "cumple")}, compromiso=("viernes 6 de noviembre", 7))])
+    ev = correr(Evaluador(llm, SPEC).evaluar(CONVS["S01"]))
+    assert por_id(ev)["R6"].resultado == "no_aplica"
+    assert any(d.startswith("R6:") for d in ev.metadatos.discrepancias)
+
+
+def test_coherencia_nunca_descarta_un_no_cumple():
+    falla = juicio("R6", "no_cumple", 5, "Su tarjeta de crédito registra un saldo vencido")
+    llm = LLMFalso([respuesta(juicios={"R6": falla}, compromiso=("viernes 6 de noviembre", 7))])
+    ev = correr(Evaluador(llm, SPEC).evaluar(CONVS["S01"]))
+    assert por_id(ev)["R6"].resultado == "no_cumple"
+
+
 def test_modo_degradado_por_excepcion():
     llm = LLMFalso([ErrorLLM("429 cuota agotada")])
     ev = correr(Evaluador(llm, SPEC).evaluar(CONVS["S02"]))

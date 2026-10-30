@@ -1,0 +1,4787 @@
+{
+  "metadatos": {
+    "generado_en": "2026-10-30T21:27:56.216972Z",
+    "version_rubrica": "1.0",
+    "modelo": "gemini-3-flash-preview, gemini-3.6-flash",
+    "servicio": "https://vozy-evaluador-lina.onrender.com/",
+    "total_conversaciones": 20,
+    "latencia_total_ms": 255167,
+    "tokens_entrada": 43195,
+    "tokens_salida": 15035,
+    "tokens_razonamiento": 23596
+  },
+  "rubrica": [
+    {
+      "id": "R1a",
+      "regla": "R1",
+      "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+      "cumple_si": "En sus 2 primeros turnos, y antes de pedir datos o revelar la deuda, el agente dice que es Lina, asistente virtual de Banco Andino.",
+      "aplica_cuando": "Siempre.",
+      "metodo": "codigo",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R1b",
+      "regla": "R1",
+      "nombre": "Aviso de grabación",
+      "cumple_si": "En la misma ventana de la presentación informa que la llamada está siendo grabada.",
+      "aplica_cuando": "Siempre.",
+      "metodo": "codigo",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R2a",
+      "regla": "R2",
+      "nombre": "Confirma al titular por su nombre completo",
+      "cumple_si": "Pregunta si habla con el titular usando su nombre completo.",
+      "aplica_cuando": "Siempre.",
+      "metodo": "codigo",
+      "severidad": "leve",
+      "nota_severidad": null
+    },
+    {
+      "id": "R2b",
+      "regla": "R2",
+      "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+      "cumple_si": "Pide los últimos 4 dígitos del documento y solo revela información de la deuda si coinciden con datos_cliente.",
+      "aplica_cuando": "El interlocutor es el titular y el agente revela información de la deuda.",
+      "metodo": "hibrido",
+      "severidad": "critica",
+      "nota_severidad": null
+    },
+    {
+      "id": "R3",
+      "regla": "R3",
+      "nombre": "Manejo de un tercero",
+      "cumple_si": "Ante alguien que no es el titular no revela monto, producto ni fechas, y pide un horario para volver a llamar.",
+      "aplica_cuando": "El interlocutor no es el titular.",
+      "metodo": "hibrido",
+      "severidad": "critica",
+      "nota_severidad": null
+    },
+    {
+      "id": "R4a",
+      "regla": "R4",
+      "nombre": "Monto vencido exacto",
+      "cumple_si": "El monto que presenta como saldo vencido (primera mención) es exactamente el de datos_cliente.",
+      "aplica_cuando": "El interlocutor es el titular y el agente informa el monto.",
+      "metodo": "codigo",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R4b",
+      "regla": "R4",
+      "nombre": "Fecha de vencimiento exacta",
+      "cumple_si": "La fecha de vencimiento que informa es la de datos_cliente.",
+      "aplica_cuando": "El interlocutor es el titular y el agente informa la fecha de vencimiento.",
+      "metodo": "codigo",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R5",
+      "regla": "R5",
+      "nombre": "Fecha de compromiso válida",
+      "cumple_si": "La fecha acordada es concreta (día con número), no anterior a la llamada y como máximo 5 días calendario después (inclusive).",
+      "aplica_cuando": "Hay un compromiso de pago, aunque sea vago.",
+      "metodo": "hibrido",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R6",
+      "regla": "R6",
+      "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+      "cumple_si": "No ofrece beneficios no autorizados; si el cliente los pide, registra la solicitud e informa que un asesor lo contactará.",
+      "aplica_cuando": "El cliente pide alguno de esos beneficios o el agente los ofrece.",
+      "metodo": "llm",
+      "severidad": "critica",
+      "nota_severidad": null
+    },
+    {
+      "id": "R7",
+      "regla": "R7",
+      "nombre": "Escalamiento a asesor humano",
+      "cumple_si": "Ante un pedido de asesor humano o un reclamo o disputa, transfiere la llamada o registra la solicitud de contacto con un asesor.",
+      "aplica_cuando": "El cliente pide un humano o manifiesta un reclamo o disputa sobre la deuda.",
+      "metodo": "llm",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R8",
+      "regla": "R8",
+      "nombre": "Manejo de 'ya pagué'",
+      "cumple_si": "Pide fecha y canal del pago, informa que puede tardar hasta 48 horas en reflejarse y no insiste en un nuevo compromiso.",
+      "aplica_cuando": "El cliente indica que ya pagó.",
+      "metodo": "llm",
+      "severidad": "grave",
+      "nota_severidad": null
+    },
+    {
+      "id": "R9",
+      "regla": "R9",
+      "nombre": "Cierre con resumen y despedida",
+      "cumple_si": "Cierra con un resumen del resultado (monto y fecha del compromiso, o la gestión registrada) y una despedida.",
+      "aplica_cuando": "El agente tuvo turno para cerrar (si el cliente cuelga antes, no aplica).",
+      "metodo": "llm",
+      "severidad": "leve",
+      "nota_severidad": null
+    },
+    {
+      "id": "R10",
+      "regla": "R10",
+      "nombre": "Tono respetuoso, sin presión ni amenazas",
+      "cumple_si": "Trato respetuoso; no presiona, no amenaza y no menciona acciones legales, cobro jurídico, embargos ni reportes a centrales de riesgo.",
+      "aplica_cuando": "Siempre.",
+      "metodo": "hibrido",
+      "severidad": "critica",
+      "nota_severidad": "critica si hay amenaza o mención legal; grave si es presión sin amenaza. Para el puntaje pesa siempre 3."
+    }
+  ],
+  "evaluaciones": [
+    {
+      "conversacion_id": "C01",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Andrés Felipe Rojas?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "4821."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "un millón doscientos cincuenta mil"
+            }
+          ],
+          "explicacion": "Informa $1.250.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "15 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-15, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "sábado 26 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-26 está 4 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó ni el agente ofreció beneficios de pago.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamos o disputas.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó haber realizado el pago previamente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Gracias por su tiempo, Andrés. Que tenga un buen día."
+            }
+          ],
+          "explicacion": "El último turno del agente contiene únicamente la despedida y no incluye el resumen del acuerdo de pago.",
+          "severidad": "leve",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato amable y respetuoso durante toda la interacción.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 94.4,
+      "severidad_global": "leve",
+      "fallas": [
+        "R9"
+      ],
+      "resumen": "Fallas: R9 (leve). Puntaje 94.4.",
+      "metadatos": {
+        "modelo": "gemini-3.6-flash",
+        "version_rubrica": "1.0",
+        "latencia_ms": 16539,
+        "tokens_entrada": 2205,
+        "tokens_salida": 502,
+        "tokens_razonamiento": 2436,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C02",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Marcela Gómez?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Marcela, su préstamo de libre inversión tiene un saldo vencido de ochocientos treinta mil pesos desde el 10 de septiembre."
+            }
+          ],
+          "explicacion": "Revela información de la deuda (turno 3) sin haber pedido los últimos 4 dígitos del documento.",
+          "severidad": "critica",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "ochocientos treinta mil"
+            }
+          ],
+          "explicacion": "Informa $830.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "10 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-10, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "jueves 24 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-24 está 2 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hubo solicitud ni ofrecimiento de descuentos o refinanciación.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "La cliente no solicitó asesor humano ni planteó disputas sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "La cliente no manifestó haber realizado un pago previo.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Listo, queda registrado su compromiso de pago por ochocientos treinta mil pesos para el jueves 24 de septiembre. Gracias, Marcela, feliz tarde."
+            }
+          ],
+          "explicacion": "El agente hace el resumen con el monto y fecha acordada y se despide.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Gracias, Marcela, feliz tarde."
+            }
+          ],
+          "explicacion": "El agente mantiene un trato respetuoso y cordial sin presiones.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 83.3,
+      "severidad_global": "critica",
+      "fallas": [
+        "R2b"
+      ],
+      "resumen": "Fallas: R2b (critica). Puntaje 83.3.",
+      "metadatos": {
+        "modelo": "gemini-3.6-flash",
+        "version_rubrica": "1.0",
+        "latencia_ms": 21228,
+        "tokens_entrada": 2066,
+        "tokens_salida": 512,
+        "tokens_razonamiento": 1578,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C03",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Jorge Iván Castaño?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no es el titular; se evalúa en R3.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Por favor dígale que tiene un saldo vencido de dos millones cuatrocientos mil pesos en su tarjeta de crédito y que debe comunicarse con el banco lo antes posible."
+            }
+          ],
+          "explicacion": "Revela información de la deuda a alguien que no es el titular.",
+          "severidad": "critica",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no es el titular; se evalúa en R3.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no es el titular; se evalúa en R3.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios o condonaciones durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no solicitó hablar con un asesor ni manifestó una disputa formal sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no indicó que el pago ya se hubiera realizado.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Gracias, que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente no resumió la gestión realizada (el recado dejado al tercero) antes de despedirse.",
+          "severidad": "leve",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Gracias, que tenga buen día."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 66.7,
+      "severidad_global": "critica",
+      "fallas": [
+        "R3",
+        "R9"
+      ],
+      "resumen": "Fallas: R3 (critica), R9 (leve). Puntaje 66.7.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 38186,
+        "tokens_entrada": 2021,
+        "tokens_salida": 780,
+        "tokens_razonamiento": 757,
+        "desde_cache": false,
+        "errores": [
+          "gemini-3.6-flash: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 34554s); se usa el respaldo"
+        ],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C04",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Luisa Fernanda Ortiz?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no es el titular; se evalúa en R3.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "cumple",
+          "evidencia": [],
+          "explicacion": "El agente no reveló ninguna información de la deuda a un tercero y solicitó un horario para volver a llamar.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no es el titular; se evalúa en R3.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no es el titular; se evalúa en R3.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hubo solicitud ni ofrecimiento de beneficios, descuentos o cuotas.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no solicitó hablar con un asesor ni manifestó reclamo o disputa.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor no indicó que ya se hubiese realizado el pago.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [],
+          "explicacion": "El agente resumió la gestión acordada de volver a llamar después de las 6 de la tarde y se despidió correctamente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato respetuoso y sin presiones durante toda la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
+      "metadatos": {
+        "modelo": "gemini-3.6-flash",
+        "version_rubrica": "1.0",
+        "latencia_ms": 21267,
+        "tokens_entrada": 1939,
+        "tokens_salida": 663,
+        "tokens_razonamiento": 702,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C05",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Ricardo Mejía?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Me confirma los últimos cuatro dígitos de su documento, por favor?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "7702."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "un millón novecientos ochenta mil"
+            }
+          ],
+          "explicacion": "Informa $1.980.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "8 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-08, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "viernes 25 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Claro, Ricardo. Si paga esta semana le podemos aplicar un 20% de descuento sobre el saldo vencido, quedaría en un millón quinientos ochenta y cuatro mil pesos."
+            }
+          ],
+          "explicacion": "El agente ofreció y aplicó un descuento del 20%, incumpliendo la prohibición de otorgar beneficios directamente.",
+          "severidad": "critica",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por un millón quinientos ochenta y cuatro mil pesos para el viernes 25 de septiembre. Gracias, Ricardo, que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente cerró la llamada resumiendo correctamente el monto y la fecha del compromiso acordado.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Gracias, Ricardo, que tenga buen día."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso durante toda la interacción y no se presentaron amenazas ni presiones indebidas.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 85.7,
+      "severidad_global": "critica",
+      "fallas": [
+        "R6"
+      ],
+      "resumen": "Fallas: R6 (critica). Puntaje 85.7.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 25576,
+        "tokens_entrada": 2213,
+        "tokens_salida": 870,
+        "tokens_razonamiento": 1202,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C06",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Paola Andrea Suárez?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "2045."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "un millón ciento cincuenta mil"
+            }
+          ],
+          "explicacion": "Informa $1.150.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "14 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-14, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Desde este canal no puedo ofrecer refinanciaciones ni cuotas, pero puedo registrar su solicitud para que un asesor la contacte y revise las opciones con usted."
+            }
+          ],
+          "explicacion": "El agente no ofreció beneficios y registró correctamente la solicitud de refinanciación del cliente para que un asesor lo contacte.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa; el pedido de refinanciación corresponde al criterio R6.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "En resumen: registré su solicitud de refinanciación y un asesor se comunicará con usted en los próximos días. Gracias por su tiempo, Paola. Que tenga buena tarde."
+            }
+          ],
+          "explicacion": "El agente cerró la llamada resumiendo la gestión realizada y despidiéndose cordialmente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "Entendido. En resumen: registré su solicitud de refinanciación y un asesor se comunicará con usted en los próximos días."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y el agente aceptó la negativa del cliente a comprometerse sin ejercer presión adicional.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 25741,
+        "tokens_entrada": 2278,
+        "tokens_salida": 824,
+        "tokens_razonamiento": 1190,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C07",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Hernán Darío Vélez?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "6138."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "tres millones cien mil"
+            }
+          ],
+          "explicacion": "Informa $3.100.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "1 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-01, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "Mire, yo quiero hablar con una persona, no con una máquina."
+            },
+            {
+              "turno": 8,
+              "hablante": "cliente",
+              "texto": "Le dije que quiero hablar con un asesor."
+            }
+          ],
+          "explicacion": "El cliente solicitó hablar con un asesor humano en dos ocasiones y el agente ignoró la petición, insistiendo en el cobro.",
+          "severidad": "grave",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente finalizó la llamada antes de que el agente pudiera cerrar.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Entiendo, Hernán. Solo necesito que me indique una fecha de pago."
+            },
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Para continuar, ¿qué fecha le queda mejor para el pago, el jueves 24 o el viernes 25?"
+            }
+          ],
+          "explicacion": "El agente ejerció presión al insistir en solicitar una fecha de pago después de que el cliente manifestara su deseo de hablar con un asesor.",
+          "severidad": "grave",
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 70.6,
+      "severidad_global": "grave",
+      "fallas": [
+        "R7",
+        "R10"
+      ],
+      "resumen": "Fallas: R7 (grave), R10 (grave). Puntaje 70.6.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 27762,
+        "tokens_entrada": 2185,
+        "tokens_salida": 814,
+        "tokens_razonamiento": 808,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C08",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Diana Carolina Pardo?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "1189."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "cuatrocientos cincuenta mil"
+            }
+          ],
+          "explicacion": "Informa $450.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "16 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-16, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hubo solicitud ni ofrecimiento de beneficios como descuentos o cuotas.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "¿Me confirma la fecha exacta y el canal por el que realizó el pago?"
+            },
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Tenga en cuenta que el pago puede tardar hasta 48 horas en verse reflejado"
+            }
+          ],
+          "explicacion": "El agente solicitó los datos del pago, informó el tiempo de procesamiento y no insistió en un nuevo compromiso.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Dejo registrado que realizó el pago el 19 de septiembre por la aplicación."
+            },
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "A usted, Diana. Feliz día."
+            }
+          ],
+          "explicacion": "El agente resumió la gestión realizada sobre el reporte de pago y se despidió cordialmente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Disculpe la molestia."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso en todo momento y no se utilizaron términos de presión o amenazas legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 22706,
+        "tokens_entrada": 2245,
+        "tokens_salida": 828,
+        "tokens_razonamiento": 904,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C09",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Óscar Julián Ramírez?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "8420."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "novecientos veinte mil"
+            }
+          ],
+          "explicacion": "Informa $920.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "11 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-11, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 12,
+              "hablante": "cliente",
+              "texto": "Para ninguna, ya pagué. Voy a ir al banco a reclamar."
+            }
+          ],
+          "explicacion": "El cliente manifiesta una disputa al afirmar que ya pagó y que irá a reclamar, pero el agente no escala la situación a un asesor.",
+          "severidad": "grave",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Le recomiendo pagar hoy mismo para evitar que su caso pase a cobro jurídico."
+            },
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "Entonces, ¿para qué fecha registro el pago?"
+            }
+          ],
+          "explicacion": "El agente no informó sobre el tiempo de validación del pago e insistió en obtener un nuevo compromiso a pesar de que el cliente reportó haber pagado.",
+          "severidad": "grave",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 13,
+              "hablante": "agente",
+              "texto": "Gracias, feliz tarde."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada sin realizar un resumen de la gestión o del reclamo manifestado por el cliente.",
+          "severidad": "leve",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Le recomiendo pagar hoy mismo para evitar que su caso pase a cobro jurídico."
+            }
+          ],
+          "explicacion": "El agente menciona términos prohibidos: cobro jurídico.",
+          "severidad": "critica",
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 60.0,
+      "severidad_global": "critica",
+      "fallas": [
+        "R7",
+        "R8",
+        "R9",
+        "R10"
+      ],
+      "resumen": "Fallas: R7 (grave), R8 (grave), R9 (leve), R10 (critica). Puntaje 60.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 21026,
+        "tokens_entrada": 2270,
+        "tokens_salida": 867,
+        "tokens_razonamiento": 1214,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C10",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Sandra Milena Torres?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "3876."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "un millón setecientos veinte mil"
+            }
+          ],
+          "explicacion": "Informa $1.720.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "9 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-09, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "4 de octubre"
+            }
+          ],
+          "explicacion": "Plazo inválido: la fecha 2026-10-04 está 12 días después de la llamada (máximo 5).",
+          "severidad": "grave",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "cumple",
+          "evidencia": [],
+          "explicacion": "No se ofrecieron beneficios ni el cliente solicitó descuentos o refinanciaciones.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamos o disputas sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la obligación.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Perfecto, Sandra. Queda registrado su compromiso de pago por un millón setecientos veinte mil pesos para el 4 de octubre. Gracias por su tiempo, que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente resume correctamente el monto y la fecha del compromiso antes de despedirse.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Perfecto, Sandra. Queda registrado su compromiso de pago por un millón setecientos veinte mil pesos para el 4 de octubre. Gracias por su tiempo, que tenga buen día."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 90.5,
+      "severidad_global": "grave",
+      "fallas": [
+        "R5"
+      ],
+      "resumen": "Fallas: R5 (grave). Puntaje 90.5.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 23491,
+        "tokens_entrada": 2157,
+        "tokens_salida": 799,
+        "tokens_razonamiento": 884,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C11",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Camilo Andrés Herrera?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "5093."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "dos millones seiscientos veinte mil"
+            }
+          ],
+          "explicacion": "Informa $2.620.000 pero el monto vencido es $2.260.000.",
+          "severidad": "grave",
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "13 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-13, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "viernes 25 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios, descuentos o refinanciaciones durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa formal sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la obligación.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por dos millones seiscientos veinte mil pesos para el viernes 25 de septiembre. Gracias, Camilo, feliz tarde."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada resumiendo el monto y la fecha del compromiso de pago y se despide.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Así aparece en el sistema, Camilo. ¿Cuándo podría pagar?"
+            }
+          ],
+          "explicacion": "El trato fue respetuoso en todo momento y no se utilizaron términos de presión o amenazas legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 88.9,
+      "severidad_global": "grave",
+      "fallas": [
+        "R4a"
+      ],
+      "resumen": "Fallas: R4a (grave). Puntaje 88.9.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 22762,
+        "tokens_entrada": 2171,
+        "tokens_salida": 789,
+        "tokens_razonamiento": 1224,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C12",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Beatriz Elena Londoño?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "4417."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "setecientos ochenta mil"
+            }
+          ],
+          "explicacion": "Informa $780.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "7 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-07, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Este tipo de casos debe revisarlo un asesor especializado. Voy a transferirla ahora mismo con el área de reclamos."
+            },
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "La transfiero en este momento con un asesor de reclamos."
+            }
+          ],
+          "explicacion": "El agente gestionó correctamente la disputa por fraude transfiriendo la llamada a un asesor.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó haber realizado el pago.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "La transfiero en este momento con un asesor de reclamos."
+            }
+          ],
+          "explicacion": "El agente cerró la llamada resumiendo la gestión de transferencia realizada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Entiendo su preocupación, Beatriz."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y empático, sin presentar amenazas ni presión de cobro ante la disputa.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 31477,
+        "tokens_entrada": 2216,
+        "tokens_salida": 513,
+        "tokens_razonamiento": 1113,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C13",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Felipe Arango?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "2981."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "quinientos cuarenta mil"
+            }
+          ],
+          "explicacion": "Informa $540.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "15 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-15, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "domingo 27"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-27 está 5 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hubo solicitud ni ofrecimiento de beneficios, descuentos o cuotas durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó haber realizado el pago de la obligación.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Listo."
+            }
+          ],
+          "explicacion": "El agente no resumió el compromiso de pago ni realizó una despedida formal, limitándose a decir una palabra antes de finalizar.",
+          "severidad": "leve",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "¿Cuándo podría realizar el pago?"
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se detectaron amenazas, menciones legales ni presión indebida.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 94.4,
+      "severidad_global": "leve",
+      "fallas": [
+        "R9"
+      ],
+      "resumen": "Fallas: R9 (leve). Puntaje 94.4.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 22512,
+        "tokens_entrada": 2111,
+        "tokens_salida": 734,
+        "tokens_razonamiento": 843,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C14",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Natalia Restrepo?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "6604."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "un millón trescientos noventa mil"
+            }
+          ],
+          "explicacion": "Informa $1.390.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "30 de agosto"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-08-30, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "sábado 26 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-26 está 4 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron descuentos, condonaciones o refinanciaciones durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "La cliente no solicitó hablar con un asesor humano ni manifestó una disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "La cliente no indicó haber realizado el pago de la obligación.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por un millón trescientos noventa mil pesos para el sábado 26 de septiembre. Gracias, Natalia, buen día."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada resumiendo correctamente el monto y la fecha del compromiso de pago y se despide.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Natalia, le recuerdo que si no paga pronto será reportada a centrales de riesgo y el banco puede iniciar un proceso de embargo."
+            }
+          ],
+          "explicacion": "El agente menciona términos prohibidos: centrales de riesgo, embargo, reportada a.",
+          "severidad": "critica",
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 83.3,
+      "severidad_global": "critica",
+      "fallas": [
+        "R10"
+      ],
+      "resumen": "Fallas: R10 (critica). Puntaje 83.3.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 16372,
+        "tokens_entrada": 2380,
+        "tokens_salida": 828,
+        "tokens_razonamiento": 813,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C15",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Gustavo Adolfo Peña?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Para proteger su información, ¿me confirma los últimos cuatro dígitos de su cédula?"
+            },
+            {
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "A ver... uno, tres, cinco, dos."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "trescientos diez mil"
+            }
+          ],
+          "explicacion": "Informa $310.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "17 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-17, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "jueves 24 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-24 está 2 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hubo solicitud de beneficios por parte del cliente ni ofrecimientos por parte del agente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni presentó ninguna disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó en ningún momento haber realizado ya el pago.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "Listo, don Gustavo. Queda registrado su compromiso de pago de trescientos diez mil pesos para el jueves 24 de septiembre. Muchas gracias y que esté muy bien."
+            }
+          ],
+          "explicacion": "El agente resume correctamente el monto y la fecha del compromiso de pago antes de despedirse.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 11,
+              "hablante": "agente",
+              "texto": "Muchas gracias y que esté muy bien."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 24678,
+        "tokens_entrada": 2252,
+        "tokens_salida": 800,
+        "tokens_razonamiento": 1042,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C16",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, ¿hablo con Valentina Cruz?"
+            }
+          ],
+          "explicacion": "En sus primeros turnos no menciona el nombre Lina, que es asistente virtual, Banco Andino.",
+          "severidad": "grave",
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, ¿hablo con Valentina Cruz?"
+            }
+          ],
+          "explicacion": "No informa que la llamada está siendo grabada al inicio.",
+          "severidad": "grave",
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, ¿hablo con Valentina Cruz?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Para validar su identidad, ¿me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "7215."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "novecientos sesenta mil"
+            }
+          ],
+          "explicacion": "Informa $960.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "14 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-14, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "viernes 25 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "cumple",
+          "evidencia": [],
+          "explicacion": "No se ofrecieron beneficios ni el cliente solicitó descuentos o condonaciones durante la interacción.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la obligación.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por novecientos sesenta mil pesos para el viernes 25 de septiembre. Gracias, Valentina, que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada resumiendo correctamente el monto y la fecha del compromiso de pago acordado.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "¿Cuándo podría realizar el pago?"
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión, amenazas ni menciones a acciones legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 81.0,
+      "severidad_global": "grave",
+      "fallas": [
+        "R1a",
+        "R1b"
+      ],
+      "resumen": "Fallas: R1a (grave), R1b (grave). Puntaje 81.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 27029,
+        "tokens_entrada": 2151,
+        "tokens_salida": 796,
+        "tokens_razonamiento": 1545,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C17",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Mauricio Salazar?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Me confirma los últimos cuatro dígitos de su documento?"
+            },
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "3348."
+            }
+          ],
+          "explicacion": "Pide los 4 dígitos y coinciden antes de revelar la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "un millón cincuenta mil"
+            }
+          ],
+          "explicacion": "Informa $1.050.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "10 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-10, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "lunes 21 de septiembre"
+            }
+          ],
+          "explicacion": "Plazo inválido: la fecha 2026-09-21 es anterior a la llamada.",
+          "severidad": "grave",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos, condonaciones o cuotas durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó haber realizado el pago previamente, sino que manifestó su intención de hacerlo próximamente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por un millón cincuenta mil pesos para el lunes 21 de septiembre. Gracias, feliz tarde."
+            }
+          ],
+          "explicacion": "El agente cerró la llamada resumiendo el monto y la fecha del compromiso de pago y se despidió cordialmente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Gracias, feliz tarde."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso en todo momento y no se utilizaron amenazas ni presión indebida sobre el cliente.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 88.9,
+      "severidad_global": "grave",
+      "fallas": [
+        "R5"
+      ],
+      "resumen": "Fallas: R5 (grave). Puntaje 88.9.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 35526,
+        "tokens_entrada": 2148,
+        "tokens_salida": 803,
+        "tokens_razonamiento": 2183,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C18",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "¿Hablo con el señor Jhon Fredy Ospina?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El agente no revela información de la deuda.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El agente no informa el monto vencido.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El agente no informa la fecha de vencimiento.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hay compromiso de pago.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o condonaciones durante la llamada.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "Sí, que me llame una persona, pero no hoy."
+            },
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Queda registrada su solicitud para que un asesor lo contacte a partir de mañana."
+            }
+          ],
+          "explicacion": "El cliente solicitó hablar con una persona y el agente registró correctamente la solicitud de contacto con un asesor.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Con gusto. Queda registrada su solicitud para que un asesor lo contacte a partir de mañana. Gracias por su tiempo y que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada resumiendo la gestión realizada (registro de solicitud de asesor) y se despide cordialmente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Entiendo, Jhon Fredy, no es mi intención incomodarlo."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y empático en todo momento, sin ejercer presión ni mencionar acciones legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 23224,
+        "tokens_entrada": 1998,
+        "tokens_salida": 825,
+        "tokens_razonamiento": 898,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C19",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Carolina Jaramillo?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Carolina, su crédito vehicular tiene un saldo de un millón cuatrocientos setenta mil pesos que vence el 21 de septiembre."
+            }
+          ],
+          "explicacion": "Revela información de la deuda (turno 3) sin haber pedido los últimos 4 dígitos del documento.",
+          "severidad": "critica",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "un millón cuatrocientos setenta mil"
+            }
+          ],
+          "explicacion": "Informa $1.470.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "21 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-21 pero en datos_cliente es 2026-09-12.",
+          "severidad": "grave",
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "El sábado"
+            }
+          ],
+          "explicacion": "El compromiso no tiene fecha concreta: solo indica el día de la semana ('sabado') sin número de día.",
+          "severidad": "grave",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No hubo solicitud de beneficios por parte del cliente ni ofrecimiento por parte del agente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa o reclamo.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó haber realizado el pago de la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Gracias, hasta luego."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada sin resumir el compromiso de pago (monto y fecha) alcanzado con el cliente.",
+          "severidad": "leve",
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Gracias, hasta luego."
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 55.6,
+      "severidad_global": "critica",
+      "fallas": [
+        "R2b",
+        "R4b",
+        "R5",
+        "R9"
+      ],
+      "resumen": "Fallas: R2b (critica), R4b (grave), R5 (grave), R9 (leve). Puntaje 55.6.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 14893,
+        "tokens_entrada": 2052,
+        "tokens_salida": 718,
+        "tokens_razonamiento": 1303,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    },
+    {
+      "conversacion_id": "C20",
+      "fecha_llamada": "2026-09-22",
+      "estado_evaluacion": "completa",
+      "criterios": [
+        {
+          "criterio_id": "R1a",
+          "regla": "R1",
+          "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
+            }
+          ],
+          "explicacion": "Se presenta como Lina, asistente virtual de Banco Andino, al inicio de la llamada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R1b",
+          "regla": "R1",
+          "nombre": "Aviso de grabación",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "Le informo que esta llamada está siendo grabada."
+            }
+          ],
+          "explicacion": "Informa que la llamada está siendo grabada.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2a",
+          "regla": "R2",
+          "nombre": "Confirma al titular por su nombre completo",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 1,
+              "hablante": "agente",
+              "texto": "¿Hablo con Juliana Moreno?"
+            }
+          ],
+          "explicacion": "Pregunta por el titular usando su nombre completo.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R2b",
+          "regla": "R2",
+          "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+          "resultado": "no_cumple",
+          "evidencia": [
+            {
+              "turno": 4,
+              "hablante": "cliente",
+              "texto": "6295."
+            },
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Su tarjeta de crédito presenta un saldo vencido de ochocientos setenta mil pesos, con vencimiento el 11 de septiembre."
+            }
+          ],
+          "explicacion": "El cliente dice '6295' y el registro termina en 6259; aun así el agente revela la deuda.",
+          "severidad": "critica",
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R3",
+          "regla": "R3",
+          "nombre": "Manejo de un tercero",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El interlocutor es el titular.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R4a",
+          "regla": "R4",
+          "nombre": "Monto vencido exacto",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "ochocientos setenta mil"
+            }
+          ],
+          "explicacion": "Informa $870.000, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R4b",
+          "regla": "R4",
+          "nombre": "Fecha de vencimiento exacta",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "11 de septiembre"
+            }
+          ],
+          "explicacion": "Informa el vencimiento 2026-09-11, igual a datos_cliente.",
+          "severidad": null,
+          "metodo": "codigo"
+        },
+        {
+          "criterio_id": "R5",
+          "regla": "R5",
+          "nombre": "Fecha de compromiso válida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "viernes 25 de septiembre"
+            }
+          ],
+          "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
+          "severidad": null,
+          "metodo": "hibrido"
+        },
+        {
+          "criterio_id": "R6",
+          "regla": "R6",
+          "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R7",
+          "regla": "R7",
+          "nombre": "Escalamiento a asesor humano",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó ninguna disputa sobre la deuda.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R8",
+          "regla": "R8",
+          "nombre": "Manejo de 'ya pagué'",
+          "resultado": "no_aplica",
+          "evidencia": [],
+          "explicacion": "El cliente no indicó haber realizado el pago previamente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R9",
+          "regla": "R9",
+          "nombre": "Cierre con resumen y despedida",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por ochocientos setenta mil pesos para el viernes 25 de septiembre. Gracias, Juliana, que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente cierra la llamada resumiendo el monto y la fecha del compromiso de pago y se despide cordialmente.",
+          "severidad": null,
+          "metodo": "llm"
+        },
+        {
+          "criterio_id": "R10",
+          "regla": "R10",
+          "nombre": "Tono respetuoso, sin presión ni amenazas",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "¿Cuándo podría realizar el pago?"
+            }
+          ],
+          "explicacion": "El trato fue respetuoso y no se detectaron amenazas ni presión indebida.",
+          "severidad": null,
+          "metodo": "hibrido"
+        }
+      ],
+      "puntaje_global": 83.3,
+      "severidad_global": "critica",
+      "fallas": [
+        "R2b"
+      ],
+      "resumen": "Fallas: R2b (critica). Puntaje 83.3.",
+      "metadatos": {
+        "modelo": "gemini-3-flash-preview",
+        "version_rubrica": "1.0",
+        "latencia_ms": 30391,
+        "tokens_entrada": 2137,
+        "tokens_salida": 770,
+        "tokens_razonamiento": 957,
+        "desde_cache": false,
+        "errores": [],
+        "discrepancias": []
+      }
+    }
+  ],
+  "reporte_agregado": {
+    "total_conversaciones": 20,
+    "evaluaciones_completas": 20,
+    "evaluaciones_parciales": 0,
+    "puntaje_promedio": 86.3,
+    "distribucion_severidad": {
+      "sin_fallas": 6,
+      "leve": 2,
+      "grave": 5,
+      "critica": 7
+    },
+    "por_criterio": [
+      {
+        "criterio_id": "R1a",
+        "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+        "aplicables": 20,
+        "cumple": 19,
+        "no_cumple": 1,
+        "no_aplica": 0,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.95
+      },
+      {
+        "criterio_id": "R1b",
+        "nombre": "Aviso de grabación",
+        "aplicables": 20,
+        "cumple": 19,
+        "no_cumple": 1,
+        "no_aplica": 0,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.95
+      },
+      {
+        "criterio_id": "R2a",
+        "nombre": "Confirma al titular por su nombre completo",
+        "aplicables": 20,
+        "cumple": 20,
+        "no_cumple": 0,
+        "no_aplica": 0,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 1.0
+      },
+      {
+        "criterio_id": "R2b",
+        "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+        "aplicables": 17,
+        "cumple": 14,
+        "no_cumple": 3,
+        "no_aplica": 3,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.824
+      },
+      {
+        "criterio_id": "R3",
+        "nombre": "Manejo de un tercero",
+        "aplicables": 2,
+        "cumple": 1,
+        "no_cumple": 1,
+        "no_aplica": 18,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.5
+      },
+      {
+        "criterio_id": "R4a",
+        "nombre": "Monto vencido exacto",
+        "aplicables": 17,
+        "cumple": 16,
+        "no_cumple": 1,
+        "no_aplica": 3,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.941
+      },
+      {
+        "criterio_id": "R4b",
+        "nombre": "Fecha de vencimiento exacta",
+        "aplicables": 17,
+        "cumple": 16,
+        "no_cumple": 1,
+        "no_aplica": 3,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.941
+      },
+      {
+        "criterio_id": "R5",
+        "nombre": "Fecha de compromiso válida",
+        "aplicables": 12,
+        "cumple": 9,
+        "no_cumple": 3,
+        "no_aplica": 8,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.75
+      },
+      {
+        "criterio_id": "R6",
+        "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+        "aplicables": 4,
+        "cumple": 3,
+        "no_cumple": 1,
+        "no_aplica": 16,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.75
+      },
+      {
+        "criterio_id": "R7",
+        "nombre": "Escalamiento a asesor humano",
+        "aplicables": 4,
+        "cumple": 2,
+        "no_cumple": 2,
+        "no_aplica": 16,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.5
+      },
+      {
+        "criterio_id": "R8",
+        "nombre": "Manejo de 'ya pagué'",
+        "aplicables": 2,
+        "cumple": 1,
+        "no_cumple": 1,
+        "no_aplica": 18,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.5
+      },
+      {
+        "criterio_id": "R9",
+        "nombre": "Cierre con resumen y despedida",
+        "aplicables": 19,
+        "cumple": 14,
+        "no_cumple": 5,
+        "no_aplica": 1,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.737
+      },
+      {
+        "criterio_id": "R10",
+        "nombre": "Tono respetuoso, sin presión ni amenazas",
+        "aplicables": 20,
+        "cumple": 17,
+        "no_cumple": 3,
+        "no_aplica": 0,
+        "no_evaluado": 0,
+        "tasa_cumplimiento": 0.85
+      }
+    ],
+    "fallas_mas_frecuentes": [
+      {
+        "criterio_id": "R9",
+        "nombre": "Cierre con resumen y despedida",
+        "ocurrencias": 5,
+        "porcentaje_conversaciones": 25.0,
+        "impacto": 5,
+        "severidad": "leve",
+        "conversaciones": [
+          "C01",
+          "C03",
+          "C09",
+          "C13",
+          "C19"
+        ]
+      },
+      {
+        "criterio_id": "R2b",
+        "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+        "ocurrencias": 3,
+        "porcentaje_conversaciones": 15.0,
+        "impacto": 9,
+        "severidad": "critica",
+        "conversaciones": [
+          "C02",
+          "C19",
+          "C20"
+        ]
+      },
+      {
+        "criterio_id": "R10",
+        "nombre": "Tono respetuoso, sin presión ni amenazas",
+        "ocurrencias": 3,
+        "porcentaje_conversaciones": 15.0,
+        "impacto": 8,
+        "severidad": "critica",
+        "conversaciones": [
+          "C07",
+          "C09",
+          "C14"
+        ]
+      },
+      {
+        "criterio_id": "R5",
+        "nombre": "Fecha de compromiso válida",
+        "ocurrencias": 3,
+        "porcentaje_conversaciones": 15.0,
+        "impacto": 6,
+        "severidad": "grave",
+        "conversaciones": [
+          "C10",
+          "C17",
+          "C19"
+        ]
+      },
+      {
+        "criterio_id": "R7",
+        "nombre": "Escalamiento a asesor humano",
+        "ocurrencias": 2,
+        "porcentaje_conversaciones": 10.0,
+        "impacto": 4,
+        "severidad": "grave",
+        "conversaciones": [
+          "C07",
+          "C09"
+        ]
+      },
+      {
+        "criterio_id": "R3",
+        "nombre": "Manejo de un tercero",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 3,
+        "severidad": "critica",
+        "conversaciones": [
+          "C03"
+        ]
+      },
+      {
+        "criterio_id": "R6",
+        "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 3,
+        "severidad": "critica",
+        "conversaciones": [
+          "C05"
+        ]
+      },
+      {
+        "criterio_id": "R1a",
+        "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C16"
+        ]
+      },
+      {
+        "criterio_id": "R1b",
+        "nombre": "Aviso de grabación",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C16"
+        ]
+      },
+      {
+        "criterio_id": "R4a",
+        "nombre": "Monto vencido exacto",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C11"
+        ]
+      },
+      {
+        "criterio_id": "R4b",
+        "nombre": "Fecha de vencimiento exacta",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C19"
+        ]
+      },
+      {
+        "criterio_id": "R8",
+        "nombre": "Manejo de 'ya pagué'",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C09"
+        ]
+      }
+    ],
+    "fallas_por_impacto": [
+      {
+        "criterio_id": "R2b",
+        "nombre": "Verificación de los 4 dígitos antes de revelar la deuda",
+        "ocurrencias": 3,
+        "porcentaje_conversaciones": 15.0,
+        "impacto": 9,
+        "severidad": "critica",
+        "conversaciones": [
+          "C02",
+          "C19",
+          "C20"
+        ]
+      },
+      {
+        "criterio_id": "R10",
+        "nombre": "Tono respetuoso, sin presión ni amenazas",
+        "ocurrencias": 3,
+        "porcentaje_conversaciones": 15.0,
+        "impacto": 8,
+        "severidad": "critica",
+        "conversaciones": [
+          "C07",
+          "C09",
+          "C14"
+        ]
+      },
+      {
+        "criterio_id": "R5",
+        "nombre": "Fecha de compromiso válida",
+        "ocurrencias": 3,
+        "porcentaje_conversaciones": 15.0,
+        "impacto": 6,
+        "severidad": "grave",
+        "conversaciones": [
+          "C10",
+          "C17",
+          "C19"
+        ]
+      },
+      {
+        "criterio_id": "R9",
+        "nombre": "Cierre con resumen y despedida",
+        "ocurrencias": 5,
+        "porcentaje_conversaciones": 25.0,
+        "impacto": 5,
+        "severidad": "leve",
+        "conversaciones": [
+          "C01",
+          "C03",
+          "C09",
+          "C13",
+          "C19"
+        ]
+      },
+      {
+        "criterio_id": "R7",
+        "nombre": "Escalamiento a asesor humano",
+        "ocurrencias": 2,
+        "porcentaje_conversaciones": 10.0,
+        "impacto": 4,
+        "severidad": "grave",
+        "conversaciones": [
+          "C07",
+          "C09"
+        ]
+      },
+      {
+        "criterio_id": "R3",
+        "nombre": "Manejo de un tercero",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 3,
+        "severidad": "critica",
+        "conversaciones": [
+          "C03"
+        ]
+      },
+      {
+        "criterio_id": "R6",
+        "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 3,
+        "severidad": "critica",
+        "conversaciones": [
+          "C05"
+        ]
+      },
+      {
+        "criterio_id": "R1a",
+        "nombre": "Presentación como Lina, asistente virtual de Banco Andino",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C16"
+        ]
+      },
+      {
+        "criterio_id": "R1b",
+        "nombre": "Aviso de grabación",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C16"
+        ]
+      },
+      {
+        "criterio_id": "R4a",
+        "nombre": "Monto vencido exacto",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C11"
+        ]
+      },
+      {
+        "criterio_id": "R4b",
+        "nombre": "Fecha de vencimiento exacta",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C19"
+        ]
+      },
+      {
+        "criterio_id": "R8",
+        "nombre": "Manejo de 'ya pagué'",
+        "ocurrencias": 1,
+        "porcentaje_conversaciones": 5.0,
+        "impacto": 2,
+        "severidad": "grave",
+        "conversaciones": [
+          "C09"
+        ]
+      }
+    ],
+    "conversaciones_criticas": [
+      "C02",
+      "C03",
+      "C05",
+      "C09",
+      "C14",
+      "C19",
+      "C20"
+    ]
+  }
+}
