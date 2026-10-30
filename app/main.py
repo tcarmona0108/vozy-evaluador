@@ -105,6 +105,7 @@ async def evaluate_batch_upload(request: Request, archivo: UploadFile = File(...
 if os.getenv("DISABLE_UI", "").lower() not in ("1", "true"):
     import gradio as gr
 
-    from app.ui import crear_ui
+    from app.ui import CSS, LOGO, crear_ui, tema
 
-    app = gr.mount_gradio_app(app, crear_ui(EVALUADOR, CONFIG.ruta_dataset, CONFIG.max_concurrencia), path="/ui")
+    app = gr.mount_gradio_app(app, crear_ui(EVALUADOR, CONFIG.ruta_dataset, CONFIG.max_concurrencia), path="/ui",
+                              theme=tema(), css=CSS, footer_links=[], favicon_path=str(LOGO))
