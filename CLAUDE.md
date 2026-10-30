@@ -73,5 +73,5 @@ py -3.12 -m venv .venv && .venv/Scripts/python -m pip install -r requirements.tx
 .venv/Scripts/python eval/medir_precision.py --results results.json
 .venv/Scripts/python scripts/generar_resultados.py --url https://<space>.hf.space
 .venv/Scripts/python scripts/deploy_space.py
-git grep -n "AIza" $(git rev-list --all)   # revisión de secretos en historial
+git grep -nE "AIza[0-9A-Za-z_-]{35}|hf_[A-Za-z0-9]{30,}" $(git rev-list --all)   # secretos en historial
 ```
