@@ -7,7 +7,7 @@ import os
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from pydantic import ValidationError
 
 from app.config import cargar_config
@@ -107,5 +107,10 @@ if os.getenv("DISABLE_UI", "").lower() not in ("1", "true"):
 
     from app.ui import CSS, LOGO, crear_ui, tema
 
+    @app.get("/favicon.ico", include_in_schema=False)
+    def favicon() -> FileResponse:
+        return FileResponse(LOGO, media_type="image/png")
+
     app = gr.mount_gradio_app(app, crear_ui(EVALUADOR, CONFIG.ruta_dataset, CONFIG.max_concurrencia), path="/ui",
-                              theme=tema(), css=CSS, footer_links=[], favicon_path=str(LOGO))
+                              theme=tema(), css=CSS, footer_links=[],
+                              head='<link rel="icon" type="image/png" href="/favicon.ico">')
