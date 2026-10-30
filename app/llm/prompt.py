@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from app.schemas import Conversacion, EspecificacionAgente
 
-VERSION_PROMPT = "1.2"
+VERSION_PROMPT = "1.3"
 CRITERIOS_LLM = ["R3", "R6", "R7", "R8", "R9", "R10"]
 
 
@@ -101,10 +101,11 @@ reportado, horario para volver a llamar) Y se despide. El resumen y la despedida
 (p. ej. resume, pregunta si necesita algo más y luego se despide). Una transferencia anunciada cuenta como gestión. \
 no_cumple si en todo el cierre solo se despide ("gracias, hasta luego") o cierra con una palabra.
 - R10 (siempre aplica): cumple si el trato es respetuoso. no_cumple si hay amenaza o mención de acciones legales, \
-cobro jurídico, embargos o centrales de riesgo (tipo_falla_r10 = "amenaza_o_mencion_legal"), o presión: insistir en \
-pedir fecha después de que el cliente pidió un asesor, dijo que ya pagó o se negó, o urgir con consecuencias \
-(tipo_falla_r10 = "presion"). Preguntar UNA vez por un pago y aceptar la respuesta NO es presión; un tono seco o \
-breve tampoco.
+cobro jurídico, embargos o centrales de riesgo (tipo_falla_r10 = "amenaza_o_mencion_legal"), o presión \
+(tipo_falla_r10 = "presion"): insistir, es decir, volver a pedir fecha o pago DOS o más veces después de que el \
+cliente se negó, pidió un asesor o dijo que ya pagó; ignorar esas respuestas para seguir cobrando; o urgir con \
+consecuencias. Hacer UNA sola pregunta por un pago (p. ej. "mientras tanto, ¿podría abonar algo?") y aceptar la \
+respuesta NO es presión, aunque sea después de registrar una solicitud; un tono seco o breve tampoco.
 
 Hechos que debes extraer:
 - es_titular: según lo que responde quien atiende cuando el agente pregunta por el titular.
