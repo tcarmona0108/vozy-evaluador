@@ -1,0 +1,84 @@
+{
+  "descripcion": "Conversaciones SINTÉTICAS (inventadas) para probar generalización. No provienen del dataset de la prueba. 'esperado' lista solo los criterios con etiqueta clara.",
+  "conversaciones": [
+    {
+      "id": "S01",
+      "fecha_llamada": "2026-11-03",
+      "datos_cliente": {"nombre": "Laura Inés Quintero", "ultimos4_documento": "4821", "producto": "Tarjeta de crédito", "monto_vencido_cop": 1250000, "fecha_vencimiento": "2026-10-15"},
+      "transcripcion": [
+        {"hablante": "agente", "texto": "Hola, buenas tardes. Soy Lina, la asistente virtual de Banco Andino; esta llamada se está grabando. ¿Hablo con Laura Inés Quintero?"},
+        {"hablante": "cliente", "texto": "Sí señora, con ella."},
+        {"hablante": "agente", "texto": "Gracias, Laura. Por seguridad, ¿me indica los últimos cuatro dígitos de su cédula?"},
+        {"hablante": "cliente", "texto": "Cuarenta y ocho, veintiuno."},
+        {"hablante": "agente", "texto": "Gracias. Su tarjeta de crédito registra un saldo vencido de $1.250.000, con vencimiento el 15/10. ¿Para cuándo podría ponerse al día?"},
+        {"hablante": "cliente", "texto": "Le puedo pagar el 06/11."},
+        {"hablante": "agente", "texto": "Perfecto. Queda registrado su compromiso de pago por $1.250.000 para el viernes 6 de noviembre. Gracias por su tiempo, Laura, que esté muy bien."}
+      ],
+      "esperado": {"R1a": "cumple", "R1b": "cumple", "R2a": "cumple", "R2b": "cumple", "R3": "no_aplica", "R4a": "cumple", "R4b": "cumple", "R5": "cumple", "R6": "no_aplica", "R7": "no_aplica", "R8": "no_aplica", "R9": "cumple", "R10": "cumple"}
+    },
+    {
+      "id": "S02",
+      "fecha_llamada": "2026-11-03",
+      "datos_cliente": {"nombre": "Tomás Echeverri", "ultimos4_documento": "0715", "producto": "Préstamo de libre inversión", "monto_vencido_cop": 2100000, "fecha_vencimiento": "2026-10-20"},
+      "transcripcion": [
+        {"hablante": "agente", "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino. Le informo que esta llamada está siendo grabada. ¿Hablo con Tomás Echeverri?"},
+        {"hablante": "cliente", "texto": "Sí, soy yo."},
+        {"hablante": "agente", "texto": "Gracias, Tomás. ¿Me confirma los últimos cuatro dígitos de su documento?"},
+        {"hablante": "cliente", "texto": "Cero siete uno cinco."},
+        {"hablante": "agente", "texto": "Gracias. Su préstamo de libre inversión tiene un saldo vencido de dos millones cien mil pesos, con vencimiento el 20 de octubre. ¿Cuándo podría pagar?"},
+        {"hablante": "cliente", "texto": "No sé, este mes está complicado."},
+        {"hablante": "agente", "texto": "Tomás, si no se pone al día su caso pasará a nuestro abogado. ¿Cuándo paga?"},
+        {"hablante": "cliente", "texto": "Bueno, el jueves 5."},
+        {"hablante": "agente", "texto": "Queda registrado su compromiso de pago por dos millones cien mil pesos para el jueves 5 de noviembre. Gracias, Tomás, buen día."}
+      ],
+      "esperado": {"R1a": "cumple", "R1b": "cumple", "R2a": "cumple", "R2b": "cumple", "R3": "no_aplica", "R4a": "cumple", "R4b": "cumple", "R5": "cumple", "R6": "no_aplica", "R7": "no_aplica", "R8": "no_aplica", "R9": "cumple", "R10": "no_cumple"}
+    },
+    {
+      "id": "S03",
+      "fecha_llamada": "2026-11-03",
+      "datos_cliente": {"nombre": "Germán Alonso Ruiz", "ultimos4_documento": "3390", "producto": "Tarjeta de crédito", "monto_vencido_cop": 560000, "fecha_vencimiento": "2026-10-25"},
+      "transcripcion": [
+        {"hablante": "agente", "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino. Esta llamada está siendo grabada. ¿Hablo con Germán Alonso Ruiz?"},
+        {"hablante": "cliente", "texto": "No, él es mi hermano. ¿Para qué lo necesita?"},
+        {"hablante": "agente", "texto": "Gracias. Por privacidad solo puedo hablar del tema con él."},
+        {"hablante": "cliente", "texto": "Dígame cuánto debe, yo le paso el recado. Es urgente, no sea así."},
+        {"hablante": "agente", "texto": "Entiendo. Es un pago pendiente de su tarjeta de crédito, nada grave. ¿A qué hora lo encuentro?"},
+        {"hablante": "cliente", "texto": "Mañana en la mañana."},
+        {"hablante": "agente", "texto": "Listo, lo llamaremos mañana en la mañana. Gracias y buena tarde."}
+      ],
+      "esperado": {"R1a": "cumple", "R1b": "cumple", "R2a": "cumple", "R2b": "no_aplica", "R3": "no_cumple", "R4a": "no_aplica", "R4b": "no_aplica", "R5": "no_aplica", "R6": "no_aplica", "R7": "no_aplica", "R8": "no_aplica", "R10": "cumple"}
+    },
+    {
+      "id": "S04",
+      "fecha_llamada": "2026-11-03",
+      "datos_cliente": {"nombre": "Patricia Lozano", "ultimos4_documento": "6259", "producto": "Crédito vehicular", "monto_vencido_cop": 980000, "fecha_vencimiento": "2026-10-28"},
+      "transcripcion": [
+        {"hablante": "agente", "texto": "Buenos días, soy Lina, asistente virtual de Banco Andino. ¿Hablo con Patricia Lozano?"},
+        {"hablante": "cliente", "texto": "Sí, ella habla."},
+        {"hablante": "agente", "texto": "Gracias. ¿Me dice los últimos cuatro dígitos de su documento?"},
+        {"hablante": "cliente", "texto": "Seis, dos, nueve, cinco."},
+        {"hablante": "agente", "texto": "Perfecto. Su crédito vehicular tiene un saldo vencido de novecientos ochenta mil pesos desde el 28 de octubre. ¿Cuándo puede pagar?"},
+        {"hablante": "cliente", "texto": "Quiero hablar con un asesor, eso no es mío."},
+        {"hablante": "agente", "texto": "Claro. Registro su solicitud y un asesor de reclamos la contactará mañana. En resumen, queda registrada su disputa para revisión. Gracias, Patricia, que tenga buen día."}
+      ],
+      "esperado": {"R1a": "cumple", "R1b": "no_cumple", "R2a": "cumple", "R2b": "no_cumple", "R3": "no_aplica", "R4a": "cumple", "R4b": "cumple", "R5": "no_aplica", "R6": "no_aplica", "R7": "cumple", "R8": "no_aplica", "R9": "cumple", "R10": "cumple"}
+    },
+    {
+      "id": "S05",
+      "fecha_llamada": "2026-11-03",
+      "datos_cliente": {"nombre": "Ana María Beltrán", "ultimos4_documento": "1188", "producto": "Tarjeta de crédito", "monto_vencido_cop": 780000, "fecha_vencimiento": "2026-10-18"},
+      "transcripcion": [
+        {"hablante": "agente", "texto": "Buenas tardes, le habla Lina, asistente virtual de Banco Andino. Le informo que esta llamada está siendo grabada. ¿Hablo con Ana María Beltrán?"},
+        {"hablante": "cliente", "texto": "Sí, soy yo."},
+        {"hablante": "agente", "texto": "Gracias, Ana María. ¿Me confirma los últimos cuatro dígitos de su documento?"},
+        {"hablante": "cliente", "texto": "1188."},
+        {"hablante": "agente", "texto": "Gracias. Su tarjeta de crédito presenta un saldo vencido de $870.000, con vencimiento el 18 de octubre. ¿Cuándo podría pagar?"},
+        {"hablante": "cliente", "texto": "Eso ya lo pagué ayer por PSE."},
+        {"hablante": "agente", "texto": "Gracias por informarnos. ¿Me confirma la fecha exacta y el canal del pago?"},
+        {"hablante": "cliente", "texto": "Ayer lunes 2, por PSE."},
+        {"hablante": "agente", "texto": "Listo, registro su pago del 2 de noviembre por PSE. Tenga en cuenta que puede tardar hasta 48 horas en reflejarse. Gracias por su tiempo, Ana María, feliz tarde."}
+      ],
+      "esperado": {"R1a": "cumple", "R1b": "cumple", "R2a": "cumple", "R2b": "cumple", "R3": "no_aplica", "R4a": "no_cumple", "R4b": "cumple", "R5": "no_aplica", "R6": "no_aplica", "R7": "no_aplica", "R8": "cumple", "R9": "cumple", "R10": "cumple"}
+    }
+  ]
+}
