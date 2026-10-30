@@ -1,14 +1,14 @@
 {
   "metadatos": {
-    "generado_en": "2026-10-30T21:27:56.216972Z",
+    "generado_en": "2026-10-30T21:51:26.788215Z",
     "version_rubrica": "1.0",
-    "modelo": "gemini-3-flash-preview, gemini-3.6-flash",
+    "modelo": "gemini-3.5-flash, gemini-3.5-flash-lite",
     "servicio": "https://vozy-evaluador-lina.onrender.com/",
     "total_conversaciones": 20,
-    "latencia_total_ms": 255167,
-    "tokens_entrada": 43195,
-    "tokens_salida": 15035,
-    "tokens_razonamiento": 23596
+    "latencia_total_ms": 289994,
+    "tokens_entrada": 46452,
+    "tokens_salida": 15416,
+    "tokens_razonamiento": 1724
   },
   "rubrica": [
     {
@@ -268,12 +268,12 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "sábado 26 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por un millón doscientos cincuenta mil pesos para el sábado 26 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-26 está 4 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -281,7 +281,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó ni el agente ofreció beneficios de pago.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente ofreció alguno durante la llamada.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -291,7 +291,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamos o disputas.",
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó reclamo o disputa sobre la deuda.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -301,7 +301,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó haber realizado el pago previamente.",
+          "explicacion": "El cliente en ningún momento indicó que ya había realizado el pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -309,16 +309,21 @@
           "criterio_id": "R9",
           "regla": "R9",
           "nombre": "Cierre con resumen y despedida",
-          "resultado": "no_cumple",
+          "resultado": "cumple",
           "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Queda registrado su compromiso de pago por un millón doscientos cincuenta mil pesos para el sábado 26 de septiembre."
+            },
             {
               "turno": 9,
               "hablante": "agente",
               "texto": "Gracias por su tiempo, Andrés. Que tenga un buen día."
             }
           ],
-          "explicacion": "El último turno del agente contiene únicamente la despedida y no incluye el resumen del acuerdo de pago.",
-          "severidad": "leve",
+          "explicacion": "El agente realiza el resumen del compromiso de pago en el turno 7 y procede con la despedida en el turno 9.",
+          "severidad": null,
           "metodo": "llm"
         },
         {
@@ -327,26 +332,28 @@
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
           "evidencia": [],
-          "explicacion": "El agente mantuvo un trato amable y respetuoso durante toda la interacción.",
+          "explicacion": "El agente mantuvo un tono respetuoso y empático durante toda la llamada, sin emitir presiones ni amenazas.",
           "severidad": null,
           "metodo": "hibrido"
         }
       ],
-      "puntaje_global": 94.4,
-      "severidad_global": "leve",
-      "fallas": [
-        "R9"
-      ],
-      "resumen": "Fallas: R9 (leve). Puntaje 94.4.",
+      "puntaje_global": 100.0,
+      "severidad_global": "sin_fallas",
+      "fallas": [],
+      "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3.6-flash",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 16539,
-        "tokens_entrada": 2205,
-        "tokens_salida": 502,
-        "tokens_razonamiento": 2436,
+        "latencia_ms": 74139,
+        "tokens_entrada": 2417,
+        "tokens_salida": 783,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
-        "errores": [],
+        "errores": [
+          "gemini-3.6-flash: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 33202s); se usa el respaldo",
+          "gemini-3-flash-preview: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 33178s); se usa el respaldo",
+          "gemini-3.5-flash: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 33155s); se usa el respaldo"
+        ],
         "discrepancias": []
       }
     },
@@ -470,12 +477,12 @@
             {
               "turno": 5,
               "hablante": "agente",
-              "texto": "jueves 24 de septiembre"
+              "texto": "Listo, queda registrado su compromiso de pago por ochocientos treinta mil pesos para el jueves 24 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-24 está 2 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -483,7 +490,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No hubo solicitud ni ofrecimiento de descuentos o refinanciación.",
+          "explicacion": "No hubo solicitudes ni ofrecimientos de beneficios, condonaciones o refinanciaciones.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -493,7 +500,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "La cliente no solicitó asesor humano ni planteó disputas sobre la deuda.",
+          "explicacion": "La cliente no solicitó hablar con un asesor ni presentó reclamos o disputas.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -519,7 +526,7 @@
               "texto": "Listo, queda registrado su compromiso de pago por ochocientos treinta mil pesos para el jueves 24 de septiembre. Gracias, Marcela, feliz tarde."
             }
           ],
-          "explicacion": "El agente hace el resumen con el monto y fecha acordada y se despide.",
+          "explicacion": "La agente cerró la llamada resumiendo el monto y la fecha del compromiso de pago y brindó una despedida adecuada.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -535,7 +542,7 @@
               "texto": "Gracias, Marcela, feliz tarde."
             }
           ],
-          "explicacion": "El agente mantiene un trato respetuoso y cordial sin presiones.",
+          "explicacion": "La agente mantuvo un trato respetuoso y sin presión durante toda la llamada.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -547,14 +554,17 @@
       ],
       "resumen": "Fallas: R2b (critica). Puntaje 83.3.",
       "metadatos": {
-        "modelo": "gemini-3.6-flash",
+        "modelo": "gemini-3.5-flash",
         "version_rubrica": "1.0",
-        "latencia_ms": 21228,
-        "tokens_entrada": 2066,
-        "tokens_salida": 512,
-        "tokens_razonamiento": 1578,
+        "latencia_ms": 72211,
+        "tokens_entrada": 2276,
+        "tokens_salida": 775,
+        "tokens_razonamiento": 1724,
         "desde_cache": false,
-        "errores": [],
+        "errores": [
+          "gemini-3.6-flash: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 33190s); se usa el respaldo",
+          "gemini-3-flash-preview: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 33167s); se usa el respaldo"
+        ],
         "discrepancias": []
       }
     },
@@ -673,7 +683,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios o condonaciones durante la llamada.",
+          "explicacion": "El cliente no solicitó ningún beneficio y el agente no ofreció ninguno.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -683,7 +693,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El interlocutor no solicitó hablar con un asesor ni manifestó una disputa formal sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó reclamo o disputa.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -693,7 +703,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El interlocutor no indicó que el pago ya se hubiera realizado.",
+          "explicacion": "El cliente no indicó haber realizado un pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -709,7 +719,7 @@
               "texto": "Gracias, que tenga buen día."
             }
           ],
-          "explicacion": "El agente no resumió la gestión realizada (el recado dejado al tercero) antes de despedirse.",
+          "explicacion": "El agente se despide pero no incluye un resumen de la gestión registrada en el cierre.",
           "severidad": "leve",
           "metodo": "llm"
         },
@@ -718,14 +728,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 5,
-              "hablante": "agente",
-              "texto": "Gracias, que tenga buen día."
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un tono respetuoso y no emitió amenazas, presiones ni menciones legales.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -738,16 +742,14 @@
       ],
       "resumen": "Fallas: R3 (critica), R9 (leve). Puntaje 66.7.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 38186,
-        "tokens_entrada": 2021,
-        "tokens_salida": 780,
-        "tokens_razonamiento": 757,
+        "latencia_ms": 13914,
+        "tokens_entrada": 2137,
+        "tokens_salida": 747,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
-        "errores": [
-          "gemini-3.6-flash: error 429 RESOURCE_EXHAUSTED: cuota agotada (la API pide esperar 34554s); se usa el respaldo"
-        ],
+        "errores": [],
         "discrepancias": []
       }
     },
@@ -819,8 +821,14 @@
           "regla": "R3",
           "nombre": "Manejo de un tercero",
           "resultado": "cumple",
-          "evidencia": [],
-          "explicacion": "El agente no reveló ninguna información de la deuda a un tercero y solicitó un horario para volver a llamar.",
+          "evidencia": [
+            {
+              "turno": 3,
+              "hablante": "agente",
+              "texto": "Por políticas de privacidad solo puedo tratar el tema directamente con Luisa Fernanda. ¿Sabe en qué horario podría encontrarla?"
+            }
+          ],
+          "explicacion": "El agente identificó que quien atiende no es el titular, no reveló información de la deuda y solicitó el horario para volver a llamar.",
           "severidad": null,
           "metodo": "hibrido"
         },
@@ -860,7 +868,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No hubo solicitud ni ofrecimiento de beneficios, descuentos o cuotas.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente los ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -870,7 +878,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El interlocutor no solicitó hablar con un asesor ni manifestó reclamo o disputa.",
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó reclamos o disputas.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -880,7 +888,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El interlocutor no indicó que ya se hubiese realizado el pago.",
+          "explicacion": "El cliente no indicó que ya hubiera realizado un pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -889,8 +897,14 @@
           "regla": "R9",
           "nombre": "Cierre con resumen y despedida",
           "resultado": "cumple",
-          "evidencia": [],
-          "explicacion": "El agente resumió la gestión acordada de volver a llamar después de las 6 de la tarde y se despidió correctamente.",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Perfecto, intentaremos comunicarnos con ella después de las 6 de la tarde. Muchas gracias y que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente cerró la llamada resumiendo la gestión registrada (horario para volver a llamar) y dando una despedida.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -899,8 +913,14 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [],
-          "explicacion": "El agente mantuvo un trato respetuoso y sin presiones durante toda la llamada.",
+          "evidencia": [
+            {
+              "turno": 5,
+              "hablante": "agente",
+              "texto": "Muchas gracias y que tenga buen día."
+            }
+          ],
+          "explicacion": "El agente mantuvo un trato respetuoso durante toda la interacción sin presiones ni menciones prohibidas.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -910,12 +930,12 @@
       "fallas": [],
       "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3.6-flash",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 21267,
-        "tokens_entrada": 1939,
-        "tokens_salida": 663,
-        "tokens_razonamiento": 702,
+        "latencia_ms": 24236,
+        "tokens_entrada": 2055,
+        "tokens_salida": 798,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -1046,12 +1066,12 @@
             {
               "turno": 9,
               "hablante": "agente",
-              "texto": "viernes 25 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por un millón quinientos ochenta y cuatro mil pesos para el viernes 25 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -1065,7 +1085,7 @@
               "texto": "Claro, Ricardo. Si paga esta semana le podemos aplicar un 20% de descuento sobre el saldo vencido, quedaría en un millón quinientos ochenta y cuatro mil pesos."
             }
           ],
-          "explicacion": "El agente ofreció y aplicó un descuento del 20%, incumpliendo la prohibición de otorgar beneficios directamente.",
+          "explicacion": "El cliente solicitó un descuento y el agente procedió a ofrecer un 20% de reducción sobre el saldo.",
           "severidad": "critica",
           "metodo": "llm"
         },
@@ -1075,7 +1095,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó un reclamo o disputa.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1085,7 +1105,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "explicacion": "El cliente no indicó haber realizado un pago previo.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1101,7 +1121,7 @@
               "texto": "Queda registrado su compromiso de pago por un millón quinientos ochenta y cuatro mil pesos para el viernes 25 de septiembre. Gracias, Ricardo, que tenga buen día."
             }
           ],
-          "explicacion": "El agente cerró la llamada resumiendo correctamente el monto y la fecha del compromiso acordado.",
+          "explicacion": "El agente cerró la llamada resumiendo el monto, la fecha del compromiso y despidiéndose correctamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1117,7 +1137,7 @@
               "texto": "Gracias, Ricardo, que tenga buen día."
             }
           ],
-          "explicacion": "El trato fue respetuoso durante toda la interacción y no se presentaron amenazas ni presiones indebidas.",
+          "explicacion": "El trato del agente fue respetuoso y no se detectaron amenazas, presiones ni menciones legales.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -1129,12 +1149,12 @@
       ],
       "resumen": "Fallas: R6 (critica). Puntaje 85.7.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 25576,
-        "tokens_entrada": 2213,
-        "tokens_salida": 870,
-        "tokens_razonamiento": 1202,
+        "latencia_ms": 24024,
+        "tokens_entrada": 2426,
+        "tokens_salida": 833,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -1278,7 +1298,7 @@
               "texto": "Desde este canal no puedo ofrecer refinanciaciones ni cuotas, pero puedo registrar su solicitud para que un asesor la contacte y revise las opciones con usted."
             }
           ],
-          "explicacion": "El agente no ofreció beneficios y registró correctamente la solicitud de refinanciación del cliente para que un asesor lo contacte.",
+          "explicacion": "El cliente pidió refinanciación o cuotas, y el agente no ofreció beneficios, registrando la solicitud para que un asesor lo contacte.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1286,9 +1306,15 @@
           "criterio_id": "R7",
           "regla": "R7",
           "nombre": "Escalamiento a asesor humano",
-          "resultado": "no_aplica",
-          "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa; el pedido de refinanciación corresponde al criterio R6.",
+          "resultado": "cumple",
+          "evidencia": [
+            {
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "pero puedo registrar su solicitud para que un asesor la contacte y revise las opciones con usted."
+            }
+          ],
+          "explicacion": "El cliente solicitó hablar con un asesor o recibir opciones y el agente registró la solicitud de contacto adecuadamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1298,7 +1324,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "explicacion": "El cliente no indicó que ya había realizado un pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1314,7 +1340,7 @@
               "texto": "En resumen: registré su solicitud de refinanciación y un asesor se comunicará con usted en los próximos días. Gracias por su tiempo, Paola. Que tenga buena tarde."
             }
           ],
-          "explicacion": "El agente cerró la llamada resumiendo la gestión realizada y despidiéndose cordialmente.",
+          "explicacion": "El agente cerró la llamada resumiendo la gestión registrada y despidiéndose correctamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1325,12 +1351,12 @@
           "resultado": "cumple",
           "evidencia": [
             {
-              "turno": 11,
+              "turno": 7,
               "hablante": "agente",
-              "texto": "Entendido. En resumen: registré su solicitud de refinanciación y un asesor se comunicará con usted en los próximos días."
+              "texto": "Entiendo su situación, Paola."
             }
           ],
-          "explicacion": "El trato fue respetuoso y el agente aceptó la negativa del cliente a comprometerse sin ejercer presión adicional.",
+          "explicacion": "El agente mantuvo un trato respetuoso y empático durante toda la llamada sin incurrir en presión o amenazas.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -1340,12 +1366,12 @@
       "fallas": [],
       "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 25741,
-        "tokens_entrada": 2278,
-        "tokens_salida": 824,
-        "tokens_razonamiento": 1190,
+        "latencia_ms": 23996,
+        "tokens_entrada": 2394,
+        "tokens_salida": 845,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -1483,7 +1509,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas durante la llamada.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1499,12 +1525,12 @@
               "texto": "Mire, yo quiero hablar con una persona, no con una máquina."
             },
             {
-              "turno": 8,
-              "hablante": "cliente",
-              "texto": "Le dije que quiero hablar con un asesor."
+              "turno": 7,
+              "hablante": "agente",
+              "texto": "Entiendo, Hernán. Solo necesito que me indique una fecha de pago."
             }
           ],
-          "explicacion": "El cliente solicitó hablar con un asesor humano en dos ocasiones y el agente ignoró la petición, insistiendo en el cobro.",
+          "explicacion": "El cliente pidió hablar con un asesor y el agente ignoró la solicitud insistiendo en el cobro.",
           "severidad": "grave",
           "metodo": "llm"
         },
@@ -1514,7 +1540,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "explicacion": "El cliente no indicó que ya había realizado un pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1545,7 +1571,7 @@
               "texto": "Para continuar, ¿qué fecha le queda mejor para el pago, el jueves 24 o el viernes 25?"
             }
           ],
-          "explicacion": "El agente ejerció presión al insistir en solicitar una fecha de pago después de que el cliente manifestara su deseo de hablar con un asesor.",
+          "explicacion": "El agente insistió en el pago dos veces después de que el cliente solicitó hablar con un asesor humano.",
           "severidad": "grave",
           "metodo": "hibrido"
         }
@@ -1558,12 +1584,12 @@
       ],
       "resumen": "Fallas: R7 (grave), R10 (grave). Puntaje 70.6.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 27762,
-        "tokens_entrada": 2185,
-        "tokens_salida": 814,
-        "tokens_razonamiento": 808,
+        "latencia_ms": 24076,
+        "tokens_entrada": 2301,
+        "tokens_salida": 797,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -1701,7 +1727,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No hubo solicitud ni ofrecimiento de beneficios como descuentos o cuotas.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1711,7 +1737,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa, solo indicó que ya había pagado.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1732,7 +1758,7 @@
               "texto": "Tenga en cuenta que el pago puede tardar hasta 48 horas en verse reflejado"
             }
           ],
-          "explicacion": "El agente solicitó los datos del pago, informó el tiempo de procesamiento y no insistió en un nuevo compromiso.",
+          "explicacion": "El agente solicitó la fecha y canal, informó el tiempo de reflejo y no insistió en un nuevo compromiso.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1753,7 +1779,7 @@
               "texto": "A usted, Diana. Feliz día."
             }
           ],
-          "explicacion": "El agente resumió la gestión realizada sobre el reporte de pago y se despidió cordialmente.",
+          "explicacion": "El agente cerró la llamada resumiendo la gestión registrada del pago e incluyó una despedida adecuada.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1764,12 +1790,12 @@
           "resultado": "cumple",
           "evidencia": [
             {
-              "turno": 9,
+              "turno": 1,
               "hablante": "agente",
-              "texto": "Disculpe la molestia."
+              "texto": "Buenos días, le habla Lina, asistente virtual de Banco Andino."
             }
           ],
-          "explicacion": "El trato fue respetuoso en todo momento y no se utilizaron términos de presión o amenazas legales.",
+          "explicacion": "El agente mantuvo un trato respetuoso durante toda la llamada sin presiones ni amenazas.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -1779,12 +1805,12 @@
       "fallas": [],
       "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 22706,
-        "tokens_entrada": 2245,
-        "tokens_salida": 828,
-        "tokens_razonamiento": 904,
+        "latencia_ms": 24033,
+        "tokens_entrada": 2361,
+        "tokens_salida": 836,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -1922,7 +1948,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas durante la llamada.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -1933,12 +1959,17 @@
           "resultado": "no_cumple",
           "evidencia": [
             {
-              "turno": 12,
+              "turno": 8,
               "hablante": "cliente",
-              "texto": "Para ninguna, ya pagué. Voy a ir al banco a reclamar."
+              "texto": "Pues yo pagué en la sucursal, tengo el recibo."
+            },
+            {
+              "turno": 9,
+              "hablante": "agente",
+              "texto": "Le recomiendo pagar hoy mismo para evitar que su caso pase a cobro jurídico."
             }
           ],
-          "explicacion": "El cliente manifiesta una disputa al afirmar que ya pagó y que irá a reclamar, pero el agente no escala la situación a un asesor.",
+          "explicacion": "El cliente manifestó un reclamo y disputa presentando un comprobante, y el agente ignoró el reclamo continuando con la gestión de cobro en lugar de transferir o registrar la solicitud de asesor.",
           "severidad": "grave",
           "metodo": "llm"
         },
@@ -1949,17 +1980,17 @@
           "resultado": "no_cumple",
           "evidencia": [
             {
-              "turno": 9,
-              "hablante": "agente",
-              "texto": "Le recomiendo pagar hoy mismo para evitar que su caso pase a cobro jurídico."
+              "turno": 6,
+              "hablante": "cliente",
+              "texto": "Pero si yo ya pagué la semana pasada."
             },
             {
-              "turno": 11,
+              "turno": 7,
               "hablante": "agente",
-              "texto": "Entonces, ¿para qué fecha registro el pago?"
+              "texto": "En nuestro sistema el saldo sigue vencido, Óscar."
             }
           ],
-          "explicacion": "El agente no informó sobre el tiempo de validación del pago e insistió en obtener un nuevo compromiso a pesar de que el cliente reportó haber pagado.",
+          "explicacion": "El cliente indicó que ya había pagado y el agente no solicitó el canal ni informó sobre el tiempo de procesamiento de 48 horas.",
           "severidad": "grave",
           "metodo": "llm"
         },
@@ -1975,7 +2006,7 @@
               "texto": "Gracias, feliz tarde."
             }
           ],
-          "explicacion": "El agente cierra la llamada sin realizar un resumen de la gestión o del reclamo manifestado por el cliente.",
+          "explicacion": "El agente finalizó la llamada únicamente con una despedida sin incluir el resumen del resultado de la gestión.",
           "severidad": "leve",
           "metodo": "llm"
         },
@@ -2006,12 +2037,12 @@
       ],
       "resumen": "Fallas: R7 (grave), R8 (grave), R9 (leve), R10 (critica). Puntaje 60.0.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 21026,
-        "tokens_entrada": 2270,
-        "tokens_salida": 867,
-        "tokens_razonamiento": 1214,
+        "latencia_ms": 23718,
+        "tokens_entrada": 2386,
+        "tokens_salida": 892,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -2142,20 +2173,20 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "4 de octubre"
+              "texto": "Queda registrado su compromiso de pago por un millón setecientos veinte mil pesos para el 4 de octubre."
             }
           ],
           "explicacion": "Plazo inválido: la fecha 2026-10-04 está 12 días después de la llamada (máximo 5).",
           "severidad": "grave",
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
           "regla": "R6",
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
-          "resultado": "cumple",
+          "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se ofrecieron beneficios ni el cliente solicitó descuentos o refinanciaciones.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2165,7 +2196,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamos o disputas sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamos o disputas.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2175,7 +2206,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la obligación.",
+          "explicacion": "El cliente no indicó que ya hubiera realizado el pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2188,10 +2219,10 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "Perfecto, Sandra. Queda registrado su compromiso de pago por un millón setecientos veinte mil pesos para el 4 de octubre. Gracias por su tiempo, que tenga buen día."
+              "texto": "Queda registrado su compromiso de pago por un millón setecientos veinte mil pesos para el 4 de octubre. Gracias por su tiempo, que tenga buen día."
             }
           ],
-          "explicacion": "El agente resume correctamente el monto y la fecha del compromiso antes de despedirse.",
+          "explicacion": "El agente cerró la llamada resumiendo el monto y la fecha del compromiso e incluyó una despedida adecuada.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2204,27 +2235,27 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "Perfecto, Sandra. Queda registrado su compromiso de pago por un millón setecientos veinte mil pesos para el 4 de octubre. Gracias por su tiempo, que tenga buen día."
+              "texto": "Gracias por su tiempo, que tenga buen día."
             }
           ],
-          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "explicacion": "El agente mantuvo un trato respetuoso durante toda la llamada sin ejercer presión ni realizar amenazas.",
           "severidad": null,
           "metodo": "hibrido"
         }
       ],
-      "puntaje_global": 90.5,
+      "puntaje_global": 88.9,
       "severidad_global": "grave",
       "fallas": [
         "R5"
       ],
-      "resumen": "Fallas: R5 (grave). Puntaje 90.5.",
+      "resumen": "Fallas: R5 (grave). Puntaje 88.9.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 23491,
-        "tokens_entrada": 2157,
-        "tokens_salida": 799,
-        "tokens_razonamiento": 884,
+        "latencia_ms": 23730,
+        "tokens_entrada": 2361,
+        "tokens_salida": 774,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -2355,12 +2386,12 @@
             {
               "turno": 9,
               "hablante": "agente",
-              "texto": "viernes 25 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por dos millones seiscientos veinte mil pesos para el viernes 25 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -2368,7 +2399,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios, descuentos o refinanciaciones durante la llamada.",
+          "explicacion": "El cliente nunca solicitó ningún beneficio y el agente tampoco lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2378,7 +2409,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa formal sobre la deuda.",
+          "explicacion": "El cliente expresó una simple sorpresa ante el monto, lo cual no constituye una disputa ni un reclamo formal.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2388,7 +2419,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la obligación.",
+          "explicacion": "El cliente nunca indicó que ya había realizado el pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2404,7 +2435,7 @@
               "texto": "Queda registrado su compromiso de pago por dos millones seiscientos veinte mil pesos para el viernes 25 de septiembre. Gracias, Camilo, feliz tarde."
             }
           ],
-          "explicacion": "El agente cierra la llamada resumiendo el monto y la fecha del compromiso de pago y se despide.",
+          "explicacion": "El agente cerró la llamada resumiendo el resultado del compromiso y despidiéndose correctamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2415,12 +2446,12 @@
           "resultado": "cumple",
           "evidencia": [
             {
-              "turno": 7,
+              "turno": 9,
               "hablante": "agente",
-              "texto": "Así aparece en el sistema, Camilo. ¿Cuándo podría pagar?"
+              "texto": "Gracias, Camilo, feliz tarde."
             }
           ],
-          "explicacion": "El trato fue respetuoso en todo momento y no se utilizaron términos de presión o amenazas legales.",
+          "explicacion": "El trato del agente fue respetuoso y no incurrió en presiones indebidas ni menciones legales prohibidas.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -2432,12 +2463,12 @@
       ],
       "resumen": "Fallas: R4a (grave). Puntaje 88.9.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 22762,
-        "tokens_entrada": 2171,
-        "tokens_salida": 789,
-        "tokens_razonamiento": 1224,
+        "latencia_ms": 23881,
+        "tokens_entrada": 2381,
+        "tokens_salida": 770,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -2575,7 +2606,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2588,15 +2619,10 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "Este tipo de casos debe revisarlo un asesor especializado. Voy a transferirla ahora mismo con el área de reclamos."
-            },
-            {
-              "turno": 9,
-              "hablante": "agente",
-              "texto": "La transfiero en este momento con un asesor de reclamos."
+              "texto": "Voy a transferirla ahora mismo con el área de reclamos."
             }
           ],
-          "explicacion": "El agente gestionó correctamente la disputa por fraude transfiriendo la llamada a un asesor.",
+          "explicacion": "El cliente manifestó una disputa y el agente procedió a transferir la llamada de manera correcta.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2606,7 +2632,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó haber realizado el pago.",
+          "explicacion": "El cliente no indicó que ya había realizado el pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2619,10 +2645,10 @@
             {
               "turno": 9,
               "hablante": "agente",
-              "texto": "La transfiero en este momento con un asesor de reclamos."
+              "texto": "Gracias por su paciencia. La transfiero en este momento con un asesor de reclamos."
             }
           ],
-          "explicacion": "El agente cerró la llamada resumiendo la gestión de transferencia realizada.",
+          "explicacion": "El agente cerró la llamada resumiendo la gestión realizada y despidiéndose.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2631,14 +2657,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 7,
-              "hablante": "agente",
-              "texto": "Entiendo su preocupación, Beatriz."
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y empático, sin presentar amenazas ni presión de cobro ante la disputa.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato respetuoso sin ejercer presión ni realizar menciones prohibidas.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -2648,12 +2668,12 @@
       "fallas": [],
       "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 31477,
-        "tokens_entrada": 2216,
-        "tokens_salida": 513,
-        "tokens_razonamiento": 1113,
+        "latencia_ms": 23929,
+        "tokens_entrada": 2332,
+        "tokens_salida": 708,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -2784,7 +2804,7 @@
             {
               "turno": 6,
               "hablante": "cliente",
-              "texto": "domingo 27"
+              "texto": "El domingo 27"
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-27 está 5 días después de la llamada.",
@@ -2797,7 +2817,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No hubo solicitud ni ofrecimiento de beneficios, descuentos o cuotas durante la llamada.",
+          "explicacion": "El cliente no solicitó ningún beneficio y el agente no ofreció ninguno.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2807,7 +2827,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó reclamos o disputas.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2817,7 +2837,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó haber realizado el pago de la obligación.",
+          "explicacion": "El cliente no indicó haber realizado un pago previo.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -2833,7 +2853,7 @@
               "texto": "Listo."
             }
           ],
-          "explicacion": "El agente no resumió el compromiso de pago ni realizó una despedida formal, limitándose a decir una palabra antes de finalizar.",
+          "explicacion": "El agente cerró la llamada únicamente diciendo una palabra en lugar de dar un resumen del compromiso y una despedida.",
           "severidad": "leve",
           "metodo": "llm"
         },
@@ -2842,14 +2862,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 5,
-              "hablante": "agente",
-              "texto": "¿Cuándo podría realizar el pago?"
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y no se detectaron amenazas, menciones legales ni presión indebida.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato respetuoso durante toda la llamada sin ejercer presión ni hacer menciones legales.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -2861,12 +2875,12 @@
       ],
       "resumen": "Fallas: R9 (leve). Puntaje 94.4.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 22512,
-        "tokens_entrada": 2111,
-        "tokens_salida": 734,
-        "tokens_razonamiento": 843,
+        "latencia_ms": 23938,
+        "tokens_entrada": 2227,
+        "tokens_salida": 697,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -2997,12 +3011,12 @@
             {
               "turno": 9,
               "hablante": "agente",
-              "texto": "sábado 26 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por un millón trescientos noventa mil pesos para el sábado 26 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-26 está 4 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -3010,7 +3024,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron descuentos, condonaciones o refinanciaciones durante la llamada.",
+          "explicacion": "El cliente no solicitó descuentos o beneficios y el agente no ofreció ninguno.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3020,7 +3034,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "La cliente no solicitó hablar con un asesor humano ni manifestó una disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamo o disputa.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3030,7 +3044,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "La cliente no indicó haber realizado el pago de la obligación.",
+          "explicacion": "El cliente no indicó haber realizado un pago previo.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3046,7 +3060,7 @@
               "texto": "Queda registrado su compromiso de pago por un millón trescientos noventa mil pesos para el sábado 26 de septiembre. Gracias, Natalia, buen día."
             }
           ],
-          "explicacion": "El agente cierra la llamada resumiendo correctamente el monto y la fecha del compromiso de pago y se despide.",
+          "explicacion": "El agente cerró la llamada resumiendo el resultado del compromiso y despidiéndose correctamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3074,12 +3088,12 @@
       ],
       "resumen": "Fallas: R10 (critica). Puntaje 83.3.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 16372,
-        "tokens_entrada": 2380,
-        "tokens_salida": 828,
-        "tokens_razonamiento": 813,
+        "latencia_ms": 24225,
+        "tokens_entrada": 2591,
+        "tokens_salida": 779,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -3210,12 +3224,12 @@
             {
               "turno": 11,
               "hablante": "agente",
-              "texto": "jueves 24 de septiembre"
+              "texto": "Queda registrado su compromiso de pago de trescientos diez mil pesos para el jueves 24 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-24 está 2 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -3223,7 +3237,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No hubo solicitud de beneficios por parte del cliente ni ofrecimientos por parte del agente.",
+          "explicacion": "El cliente no solicitó beneficios ni el agente los ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3233,7 +3247,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor humano ni presentó ninguna disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó disputas.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3243,7 +3257,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó en ningún momento haber realizado ya el pago.",
+          "explicacion": "El cliente no indicó haber realizado un pago previo.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3259,7 +3273,7 @@
               "texto": "Listo, don Gustavo. Queda registrado su compromiso de pago de trescientos diez mil pesos para el jueves 24 de septiembre. Muchas gracias y que esté muy bien."
             }
           ],
-          "explicacion": "El agente resume correctamente el monto y la fecha del compromiso de pago antes de despedirse.",
+          "explicacion": "El agente cerró la llamada resumiendo el monto, la fecha del compromiso y despidiéndose correctamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3268,14 +3282,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 11,
-              "hablante": "agente",
-              "texto": "Muchas gracias y que esté muy bien."
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un tono respetuoso durante toda la llamada sin presionar ni amenazar.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -3285,12 +3293,12 @@
       "fallas": [],
       "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 24678,
-        "tokens_entrada": 2252,
-        "tokens_salida": 800,
-        "tokens_razonamiento": 1042,
+        "latencia_ms": 24299,
+        "tokens_entrada": 2462,
+        "tokens_salida": 725,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -3421,20 +3429,20 @@
             {
               "turno": 9,
               "hablante": "agente",
-              "texto": "viernes 25 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por novecientos sesenta mil pesos para el viernes 25 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
           "regla": "R6",
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
-          "resultado": "cumple",
+          "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se ofrecieron beneficios ni el cliente solicitó descuentos o condonaciones durante la interacción.",
+          "explicacion": "El cliente no solicito ningun beneficio y el agente no lo ofrecio.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3444,7 +3452,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no manifesto reclamos, disputas ni solicito hablar con un asesor.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3454,7 +3462,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la obligación.",
+          "explicacion": "El cliente no indico haber realizado un pago previo.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3470,7 +3478,7 @@
               "texto": "Queda registrado su compromiso de pago por novecientos sesenta mil pesos para el viernes 25 de septiembre. Gracias, Valentina, que tenga buen día."
             }
           ],
-          "explicacion": "El agente cierra la llamada resumiendo correctamente el monto y la fecha del compromiso de pago acordado.",
+          "explicacion": "El agente cerro la llamada resumiendo el monto y la fecha del compromiso junto con una despedida.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3479,32 +3487,26 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 7,
-              "hablante": "agente",
-              "texto": "¿Cuándo podría realizar el pago?"
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión, amenazas ni menciones a acciones legales.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato respetuoso durante toda la llamada sin realizar amenazas ni presiones.",
           "severidad": null,
           "metodo": "hibrido"
         }
       ],
-      "puntaje_global": 81.0,
+      "puntaje_global": 77.8,
       "severidad_global": "grave",
       "fallas": [
         "R1a",
         "R1b"
       ],
-      "resumen": "Fallas: R1a (grave), R1b (grave). Puntaje 81.0.",
+      "resumen": "Fallas: R1a (grave), R1b (grave). Puntaje 77.8.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 27029,
-        "tokens_entrada": 2151,
-        "tokens_salida": 796,
-        "tokens_razonamiento": 1545,
+        "latencia_ms": 23695,
+        "tokens_entrada": 2360,
+        "tokens_salida": 719,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -3635,12 +3637,12 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "lunes 21 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por un millón cincuenta mil pesos para el lunes 21 de septiembre."
             }
           ],
           "explicacion": "Plazo inválido: la fecha 2026-09-21 es anterior a la llamada.",
           "severidad": "grave",
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -3648,7 +3650,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos, condonaciones o cuotas durante la llamada.",
+          "explicacion": "El cliente no solicitó descuentos o beneficios ni el agente los ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3658,7 +3660,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor humano ni manifestó ninguna disputa o reclamo sobre la deuda.",
+          "explicacion": "El cliente no solicitó asesor humano ni manifestó reclamos o disputas sobre la deuda.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3668,7 +3670,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó haber realizado el pago previamente, sino que manifestó su intención de hacerlo próximamente.",
+          "explicacion": "El cliente no indicó que ya hubiera realizado el pago previamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3681,10 +3683,10 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "Queda registrado su compromiso de pago por un millón cincuenta mil pesos para el lunes 21 de septiembre. Gracias, feliz tarde."
+              "texto": "Perfecto, Mauricio. Queda registrado su compromiso de pago por un millón cincuenta mil pesos para el lunes 21 de septiembre. Gracias, feliz tarde."
             }
           ],
-          "explicacion": "El agente cerró la llamada resumiendo el monto y la fecha del compromiso de pago y se despidió cordialmente.",
+          "explicacion": "El agente cerró la llamada resumiendo el monto y la fecha del compromiso e incluyendo una despedida.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3693,14 +3695,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 7,
-              "hablante": "agente",
-              "texto": "Gracias, feliz tarde."
-            }
-          ],
-          "explicacion": "El trato fue respetuoso en todo momento y no se utilizaron amenazas ni presión indebida sobre el cliente.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato respetuoso y sin presiones durante toda la interacción.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -3712,12 +3708,12 @@
       ],
       "resumen": "Fallas: R5 (grave). Puntaje 88.9.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 35526,
-        "tokens_entrada": 2148,
-        "tokens_salida": 803,
-        "tokens_razonamiento": 2183,
+        "latencia_ms": 23681,
+        "tokens_entrada": 2357,
+        "tokens_salida": 742,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -3832,7 +3828,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o condonaciones durante la llamada.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente ofreció alguno.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3843,17 +3839,12 @@
           "resultado": "cumple",
           "evidencia": [
             {
-              "turno": 6,
-              "hablante": "cliente",
-              "texto": "Sí, que me llame una persona, pero no hoy."
-            },
-            {
-              "turno": 7,
+              "turno": 5,
               "hablante": "agente",
-              "texto": "Queda registrada su solicitud para que un asesor lo contacte a partir de mañana."
+              "texto": "Si lo prefiere, puedo registrar su solicitud para que un asesor lo contacte y revise opciones con usted."
             }
           ],
-          "explicacion": "El cliente solicitó hablar con una persona y el agente registró correctamente la solicitud de contacto con un asesor.",
+          "explicacion": "El cliente pidió hablar con un asesor y el agente registró correctamente la solicitud.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3863,7 +3854,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no manifestó haber realizado el pago de la deuda.",
+          "explicacion": "El cliente no indicó que ya había realizado un pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3879,7 +3870,7 @@
               "texto": "Con gusto. Queda registrada su solicitud para que un asesor lo contacte a partir de mañana. Gracias por su tiempo y que tenga buen día."
             }
           ],
-          "explicacion": "El agente cierra la llamada resumiendo la gestión realizada (registro de solicitud de asesor) y se despide cordialmente.",
+          "explicacion": "El agente cerró la llamada resumiendo la gestión registrada y despidiéndose cordialmente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -3895,7 +3886,7 @@
               "texto": "Entiendo, Jhon Fredy, no es mi intención incomodarlo."
             }
           ],
-          "explicacion": "El trato fue respetuoso y empático en todo momento, sin ejercer presión ni mencionar acciones legales.",
+          "explicacion": "El agente mantuvo un trato respetuoso y empático en todo momento sin presionar ni amenazar.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -3905,12 +3896,12 @@
       "fallas": [],
       "resumen": "Sin fallas detectadas. Puntaje 100.0.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 23224,
-        "tokens_entrada": 1998,
-        "tokens_salida": 825,
-        "tokens_razonamiento": 898,
+        "latencia_ms": 24450,
+        "tokens_entrada": 2114,
+        "tokens_salida": 787,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -4049,7 +4040,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No hubo solicitud de beneficios por parte del cliente ni ofrecimiento por parte del agente.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente ofreció alguno.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4059,7 +4050,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó una disputa o reclamo.",
+          "explicacion": "La cliente no solicitó hablar con un asesor humano ni manifestó un reclamo o disputa.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4069,7 +4060,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó haber realizado el pago de la deuda.",
+          "explicacion": "La cliente no indicó que ya hubiera realizado el pago.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4085,7 +4076,7 @@
               "texto": "Gracias, hasta luego."
             }
           ],
-          "explicacion": "El agente cierra la llamada sin resumir el compromiso de pago (monto y fecha) alcanzado con el cliente.",
+          "explicacion": "El agente se despide sin resumir el resultado ni el compromiso de pago acordado.",
           "severidad": "leve",
           "metodo": "llm"
         },
@@ -4094,14 +4085,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 7,
-              "hablante": "agente",
-              "texto": "Gracias, hasta luego."
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y no se utilizaron términos de presión o amenazas legales.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un trato respetuoso y no utilizó términos prohibidos ni presión.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -4116,12 +4101,12 @@
       ],
       "resumen": "Fallas: R2b (critica), R4b (grave), R5 (grave), R9 (leve). Puntaje 55.6.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 14893,
-        "tokens_entrada": 2052,
-        "tokens_salida": 718,
-        "tokens_razonamiento": 1303,
+        "latencia_ms": 23773,
+        "tokens_entrada": 2168,
+        "tokens_salida": 680,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -4252,12 +4237,12 @@
             {
               "turno": 7,
               "hablante": "agente",
-              "texto": "viernes 25 de septiembre"
+              "texto": "Queda registrado su compromiso de pago por ochocientos setenta mil pesos para el viernes 25 de septiembre."
             }
           ],
           "explicacion": "Fecha concreta: la fecha 2026-09-25 está 3 días después de la llamada.",
           "severidad": null,
-          "metodo": "hibrido"
+          "metodo": "codigo"
         },
         {
           "criterio_id": "R6",
@@ -4265,7 +4250,7 @@
           "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "No se solicitaron ni ofrecieron beneficios como descuentos o cuotas.",
+          "explicacion": "El cliente no solicitó ningún beneficio ni el agente lo ofreció.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4275,7 +4260,7 @@
           "nombre": "Escalamiento a asesor humano",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó ninguna disputa sobre la deuda.",
+          "explicacion": "El cliente no solicitó hablar con un asesor ni manifestó reclamo o disputa.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4285,7 +4270,7 @@
           "nombre": "Manejo de 'ya pagué'",
           "resultado": "no_aplica",
           "evidencia": [],
-          "explicacion": "El cliente no indicó haber realizado el pago previamente.",
+          "explicacion": "El cliente no indicó haber realizado un pago previo.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4301,7 +4286,7 @@
               "texto": "Queda registrado su compromiso de pago por ochocientos setenta mil pesos para el viernes 25 de septiembre. Gracias, Juliana, que tenga buen día."
             }
           ],
-          "explicacion": "El agente cierra la llamada resumiendo el monto y la fecha del compromiso de pago y se despide cordialmente.",
+          "explicacion": "El agente cerró la llamada resumiendo el monto y la fecha del compromiso y se despidió correctamente.",
           "severidad": null,
           "metodo": "llm"
         },
@@ -4310,14 +4295,8 @@
           "regla": "R10",
           "nombre": "Tono respetuoso, sin presión ni amenazas",
           "resultado": "cumple",
-          "evidencia": [
-            {
-              "turno": 5,
-              "hablante": "agente",
-              "texto": "¿Cuándo podría realizar el pago?"
-            }
-          ],
-          "explicacion": "El trato fue respetuoso y no se detectaron amenazas ni presión indebida.",
+          "evidencia": [],
+          "explicacion": "El agente mantuvo un tono respetuoso en toda la llamada sin presionar ni mencionar términos prohibidos.",
           "severidad": null,
           "metodo": "hibrido"
         }
@@ -4329,12 +4308,12 @@
       ],
       "resumen": "Fallas: R2b (critica). Puntaje 83.3.",
       "metadatos": {
-        "modelo": "gemini-3-flash-preview",
+        "modelo": "gemini-3.5-flash-lite",
         "version_rubrica": "1.0",
-        "latencia_ms": 30391,
-        "tokens_entrada": 2137,
-        "tokens_salida": 770,
-        "tokens_razonamiento": 957,
+        "latencia_ms": 23547,
+        "tokens_entrada": 2346,
+        "tokens_salida": 729,
+        "tokens_razonamiento": 0,
         "desde_cache": false,
         "errores": [],
         "discrepancias": []
@@ -4345,10 +4324,10 @@
     "total_conversaciones": 20,
     "evaluaciones_completas": 20,
     "evaluaciones_parciales": 0,
-    "puntaje_promedio": 86.3,
+    "puntaje_promedio": 86.4,
     "distribucion_severidad": {
-      "sin_fallas": 6,
-      "leve": 2,
+      "sin_fallas": 7,
+      "leve": 1,
       "grave": 5,
       "critica": 7
     },
@@ -4436,22 +4415,22 @@
       {
         "criterio_id": "R6",
         "nombre": "Sin descuentos, condonaciones, refinanciación ni cuotas",
-        "aplicables": 4,
-        "cumple": 3,
+        "aplicables": 2,
+        "cumple": 1,
         "no_cumple": 1,
-        "no_aplica": 16,
+        "no_aplica": 18,
         "no_evaluado": 0,
-        "tasa_cumplimiento": 0.75
+        "tasa_cumplimiento": 0.5
       },
       {
         "criterio_id": "R7",
         "nombre": "Escalamiento a asesor humano",
-        "aplicables": 4,
-        "cumple": 2,
+        "aplicables": 5,
+        "cumple": 3,
         "no_cumple": 2,
-        "no_aplica": 16,
+        "no_aplica": 15,
         "no_evaluado": 0,
-        "tasa_cumplimiento": 0.5
+        "tasa_cumplimiento": 0.6
       },
       {
         "criterio_id": "R8",
@@ -4467,11 +4446,11 @@
         "criterio_id": "R9",
         "nombre": "Cierre con resumen y despedida",
         "aplicables": 19,
-        "cumple": 14,
-        "no_cumple": 5,
+        "cumple": 15,
+        "no_cumple": 4,
         "no_aplica": 1,
         "no_evaluado": 0,
-        "tasa_cumplimiento": 0.737
+        "tasa_cumplimiento": 0.789
       },
       {
         "criterio_id": "R10",
@@ -4488,12 +4467,11 @@
       {
         "criterio_id": "R9",
         "nombre": "Cierre con resumen y despedida",
-        "ocurrencias": 5,
-        "porcentaje_conversaciones": 25.0,
-        "impacto": 5,
+        "ocurrencias": 4,
+        "porcentaje_conversaciones": 20.0,
+        "impacto": 4,
         "severidad": "leve",
         "conversaciones": [
-          "C01",
           "C03",
           "C09",
           "C13",
@@ -4672,12 +4650,11 @@
       {
         "criterio_id": "R9",
         "nombre": "Cierre con resumen y despedida",
-        "ocurrencias": 5,
-        "porcentaje_conversaciones": 25.0,
-        "impacto": 5,
+        "ocurrencias": 4,
+        "porcentaje_conversaciones": 20.0,
+        "impacto": 4,
         "severidad": "leve",
         "conversaciones": [
-          "C01",
           "C03",
           "C09",
           "C13",
