@@ -5,7 +5,7 @@ import datetime as dt
 import re
 from dataclasses import dataclass, field
 
-from app.checks.dates import encontrar_fechas_con_mes
+from app.checks.dates import encontrar_fechas_con_mes, resolver_fecha
 from app.checks.digits import coinciden, extraer_digitos
 from app.checks.numbers import encontrar_montos
 from app.checks.text import plegar
@@ -36,6 +36,8 @@ RE_NO_TITULAR = re.compile(
 RE_SI_TITULAR = re.compile(r"^\W*(si|claro|correcto)\b|\bsoy yo\b|\bcon (el|ella)\b|\b(el|ella) habla\b|"
                            r"\bservidor[a]?\b|\ba la orden\b")
 RE_CLIENTE_COLGO = re.compile(r"cliente (finalizo|colgo|corto|termino)|se (corto|cayo) la llamada")
+# Confirmación del compromiso por el agente: "queda registrado su compromiso de pago ... para el viernes 25".
+RE_REGISTRO_COMPROMISO = re.compile(r"\bcompromiso\b|\b(registr|agend|anot)\w*\b(?=[^.?!]*\bpago\b)[^.?!]*\bpara\b")
 
 _ORACION = re.compile(r"[^.?!¿¡]*[¿¡]?[^.?!]*[.?!]?")
 
@@ -78,6 +80,7 @@ class HechosCodigo:
     respuesta_identidad: Mencion | None = None
     cliente_colgo: bool = False
     ultimo_turno_agente: int | None = None
+    compromiso_registrado: Mencion | None = None  # valor = FechaResuelta de la fecha que el agente registra
 
     def resumen_para_llm(self) -> dict:
         """Hechos ya calculados por código que el LLM recibe como contexto (no los debe re-juzgar)."""
@@ -92,6 +95,7 @@ class HechosCodigo:
             "fecha_vencimiento_informada_por_agente": m(self.fecha_vencimiento_informada),
             "terminos_prohibidos_detectados": [m(t) for t in self.terminos_prohibidos],
             "cliente_colgo_antes_del_cierre": self.cliente_colgo,
+            "compromiso_registrado_por_agente": m(self.compromiso_registrado),
             "ultimo_turno_agente": self.ultimo_turno_agente,
         }
 
@@ -205,6 +209,20 @@ def calcular_hechos(conv: Conversacion) -> HechosCodigo:
         texto = tr[i - 1].texto
         for m in RE_PROHIBIDOS.finditer(plegar(texto)):
             h.terminos_prohibidos.append(Mencion(i, oracion_en(texto, m.start()), texto[m.start():m.end()]))
+
+    # Fecha del compromiso que el agente registra (última confirmación afirmativa con fecha).
+    for i in reversed(agente):
+        texto = tr[i - 1].texto
+        oraciones = [o for o in re.split(r"(?<=[.!?])\s+", texto) if o.strip()]
+        for oracion in reversed(oraciones):
+            if "?" in oracion or not RE_REGISTRO_COMPROMISO.search(plegar(oracion)):
+                continue
+            fecha = resolver_fecha(oracion, conv.fecha_llamada)
+            if fecha.concreta and fecha.fecha:
+                h.compromiso_registrado = Mencion(i, oracion.strip(), fecha)
+                break
+        if h.compromiso_registrado:
+            break
 
     ultimo = tr[-1]
     h.cliente_colgo = ultimo.hablante == "sistema" and bool(RE_CLIENTE_COLGO.search(plegar(ultimo.texto)))

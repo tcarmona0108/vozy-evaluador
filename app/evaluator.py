@@ -12,7 +12,7 @@ from collections import OrderedDict
 
 from pydantic import ValidationError
 
-from app.checks.dates import resolver_fecha, validar_plazo
+from app.checks.dates import FechaResuelta, resolver_fecha, validar_plazo
 from app.checks.facts import HechosCodigo, calcular_hechos, criterios_codigo, r10_por_terminos, resultado
 from app.evidence import cita_turno, ubicar_cita
 from app.llm.base import ClienteLLM, ErrorLLM
@@ -88,13 +88,36 @@ def _r3(conv: Conversacion, h: HechosCodigo, es_titular: bool | None, juicio: Ju
     return _desde_juicio(conv, h, juicio, ctx)
 
 
-def _r5(conv: Conversacion, r: RespuestaLLM | None, ctx: Contexto) -> ResultadoCriterio:
+def _veredicto_plazo(conv: Conversacion, fecha: FechaResuelta, evidencia: list[Cita], ctx: Contexto,
+                     metodo: str | None = None) -> ResultadoCriterio:
+    plazo = validar_plazo(fecha.fecha, conv.fecha_llamada)
+    nota_semana = f" Además, {fecha.inconsistencia}." if fecha.inconsistencia else ""
+    if fecha.inconsistencia:
+        ctx.discrepancias.append(f"R5: {fecha.inconsistencia}")
+    if plazo.valida:
+        return resultado("R5", "cumple", evidencia, f"Fecha concreta: {plazo.motivo}.{nota_semana}", metodo=metodo)
+    if not evidencia:
+        return resultado("R5", "no_evaluado", [], "La fecha incumple el plazo pero no se pudo ubicar la cita.")
+    return resultado("R5", "no_cumple", evidencia, f"Plazo inválido: {plazo.motivo}.{nota_semana}", metodo=metodo)
+
+
+def _r5(conv: Conversacion, h: HechosCodigo, r: RespuestaLLM | None, ctx: Contexto) -> ResultadoCriterio:
+    tr = conv.transcripcion
+    registro = h.compromiso_registrado
+    if registro is not None:
+        # Hecho objetivo: la fecha que el agente confirma al registrar el compromiso. Decide el código.
+        fecha: FechaResuelta = registro.valor
+        if r and r.hechos.fecha_compromiso_textual:
+            del_llm = resolver_fecha(r.hechos.fecha_compromiso_textual, conv.fecha_llamada)
+            if del_llm.fecha != fecha.fecha:
+                ctx.discrepancias.append(f"R5: el LLM extrajo '{r.hechos.fecha_compromiso_textual}' pero el agente "
+                                         f"registra el {fecha.fecha.isoformat()}; gana el código")
+        return _veredicto_plazo(conv, fecha, [cita_turno(tr, registro.turno, registro.texto)], ctx, metodo="codigo")
     if r is None:
         return resultado("R5", "no_evaluado", [], "No se pudo extraer el compromiso de pago.")
     hechos = r.hechos
     if not hechos.hay_compromiso_pago:
         return resultado("R5", "no_aplica", [], "No hay compromiso de pago.")
-    tr = conv.transcripcion
     cita = None
     if hechos.fecha_compromiso_textual:
         turno = hechos.cita_compromiso.turno if hechos.cita_compromiso else None
@@ -111,15 +134,7 @@ def _r5(conv: Conversacion, r: RespuestaLLM | None, ctx: Contexto) -> ResultadoC
             return resultado("R5", "no_evaluado", [], "Hay compromiso pero no se pudo ubicar su evidencia.")
         return resultado("R5", "no_cumple", evidencia, f"El compromiso no tiene fecha concreta: {fecha.motivo}.",
                          metodo="hibrido")
-    plazo = validar_plazo(fecha.fecha, conv.fecha_llamada)
-    nota_semana = f" Además, {fecha.inconsistencia}." if fecha.inconsistencia else ""
-    if fecha.inconsistencia:
-        ctx.discrepancias.append(f"R5: {fecha.inconsistencia}")
-    if plazo.valida:
-        return resultado("R5", "cumple", evidencia, f"Fecha concreta: {plazo.motivo}.{nota_semana}")
-    if not evidencia:
-        return resultado("R5", "no_evaluado", [], "La fecha incumple el plazo pero no se pudo ubicar la cita.")
-    return resultado("R5", "no_cumple", evidencia, f"Plazo inválido: {plazo.motivo}.{nota_semana}")
+    return _veredicto_plazo(conv, fecha, evidencia, ctx)
 
 
 def _r10(conv: Conversacion, h: HechosCodigo, juicio: JuicioLLM | None, ctx: Contexto) -> ResultadoCriterio:
@@ -177,7 +192,7 @@ def combinar(conv: Conversacion, h: HechosCodigo, r: RespuestaLLM | None, ctx: C
 
     por_id = criterios_codigo(conv, h, es_titular)
     por_id["R3"] = _r3(conv, h, es_titular, juicios.get("R3"), ctx)
-    por_id["R5"] = _r5(conv, r, ctx)
+    por_id["R5"] = _r5(conv, h, r, ctx)
     for cid in ("R6", "R7", "R8"):
         j = juicios.get(cid)
         if j and r and j.resultado == "cumple" and not _aplica_segun_hechos(cid, r):

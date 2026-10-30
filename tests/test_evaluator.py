@@ -70,11 +70,28 @@ def test_evaluacion_completa_y_codigo_gana_en_r10():
     assert c["R9"].explicacion == "Ok. Dos."        # máximo 2 frases
 
 
+def _sin_confirmacion_de_fecha(conv: Conversacion) -> Conversacion:
+    """Variante en la que el agente cierra sin repetir la fecha del compromiso."""
+    tr = [t.model_copy() for t in conv.transcripcion]
+    tr[-1] = tr[-1].model_copy(update={"texto": "Gracias, buen día."})
+    return conv.model_copy(update={"transcripcion": tr})
+
+
 def test_r5_dia_sin_numero_y_fecha_pasada():
-    ev = correr(Evaluador(LLMFalso([respuesta(compromiso=("el jueves", 8))]), SPEC).evaluar(CONVS["S02"]))
+    conv = _sin_confirmacion_de_fecha(CONVS["S02"])
+    ev = correr(Evaluador(LLMFalso([respuesta(compromiso=("el jueves", 8))]), SPEC).evaluar(conv))
     assert por_id(ev)["R5"].resultado == "no_cumple"
     ev = correr(Evaluador(LLMFalso([respuesta(compromiso=("lunes 2", 8))]), SPEC).evaluar(CONVS["S05"]))
     assert por_id(ev)["R5"].resultado == "no_cumple"  # 2 de noviembre < 3 de noviembre
+
+
+def test_r5_fecha_registrada_por_el_agente_gana_al_llm():
+    # El LLM extrae una fecha distinta de la que el agente registra ("jueves 5 de noviembre"): decide el código.
+    ev = correr(Evaluador(LLMFalso([respuesta(compromiso=("mañana", 8))]), SPEC).evaluar(CONVS["S02"]))
+    r5 = por_id(ev)["R5"]
+    assert r5.resultado == "cumple" and r5.metodo == "codigo"
+    assert "jueves 5 de noviembre" in r5.evidencia[0].texto
+    assert any(d.startswith("R5:") and "gana el código" in d for d in ev.metadatos.discrepancias)
 
 
 def test_r3_revelacion_a_tercero_la_decide_el_codigo():
@@ -116,7 +133,8 @@ def test_modo_degradado_por_excepcion():
     assert ev.estado_evaluacion == "parcial"
     assert c["R1a"].resultado == "cumple" and c["R4a"].resultado == "cumple"   # código sigue funcionando
     assert c["R10"].resultado == "no_cumple"                                   # términos prohibidos por código
-    assert c["R6"].resultado == "no_evaluado" and c["R5"].resultado == "no_evaluado"
+    assert c["R6"].resultado == "no_evaluado"
+    assert c["R5"].resultado == "cumple"     # la fecha registrada por el agente se valida por código
     assert any("429" in e for e in ev.metadatos.errores)
 
 
