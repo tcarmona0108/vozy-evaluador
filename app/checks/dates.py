@@ -130,7 +130,7 @@ def resolver_fecha(texto: str, fecha_llamada: dt.date) -> FechaResuelta:
 
     m = RE_SEMANA.search(plegado)
     if m:
-        return FechaResuelta(None, False, f"solo indica el día de la semana ('{m['sem']}') sin número de día")
+        return FechaResuelta(None, False, f"solo indica el día de la semana ('{NOMBRES_SEMANA[DIAS_SEMANA[m['sem']]]}') sin número de día")
     return FechaResuelta(None, False, "no hay una fecha concreta")
 
 
