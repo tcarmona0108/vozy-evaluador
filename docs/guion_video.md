@@ -1,7 +1,7 @@
 # Guion del video (≈4:45 min)
 
 > Antes de grabar: abrir https://vozy-evaluador-lina.onrender.com/health para despertar el servicio (plan gratuito)
-> y correr una vez "Evaluar" en la UI para que el lote quede en caché y la demo sea instantánea.
+> y pulsar una vez "¡Evaluar!" en la UI para que el lote quede en caché y la demo sea instantánea (la caché se pierde si el servicio se suspende tras 15 min sin uso).
 > Pestañas listas: UI, Swagger, README en GitHub, `results.json`, `HALLAZGOS.md`.
 
 ## 0:00 – 0:40 · Problema y enfoque
@@ -13,7 +13,8 @@
   textual en la transcripción."
 
 ## 0:40 – 1:40 · Demo en la URL pública
-- **UI** (`/ui`): marcar "usar el archivo de la prueba", pulsar Evaluar.
+- **UI** (`/ui`): mostrar el encabezado con la identidad de Vozy y los 3 pasos del enfoque; sin subir archivo, pulsar **¡Evaluar!** (evalúa las 20 de la prueba). Mencionar que se puede subir otro `.json` con la misma estructura.
+  - Tarjetas de indicadores: puntaje promedio, cumplimiento de criterios, llamadas con falla crítica y distribución de severidad.
   - Tabla por conversación: puntaje, severidad y ✅/❌ por criterio.
   - Pestaña *Fallas con evidencia*: mostrar C20 R2b ("el cliente dice 6295, el registro es 6259") y C14 R10
     ("centrales de riesgo… embargo").
