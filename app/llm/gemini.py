@@ -32,6 +32,7 @@ class ClienteGemini:
         )
         self._candado = asyncio.Lock()
         self._ultima_llamada = 0.0
+        self._agotado_hasta: dict[str, float] = {}
 
     def _config_generacion(self, sistema: str, esquema_json: dict) -> types.GenerateContentConfig:
         thinking = None
@@ -78,11 +79,11 @@ class ClienteGemini:
 
     async def generar_json(self, sistema: str, usuario: str, esquema_json: dict) -> RespuestaLLMCruda:
         avisos: list[str] = []
-        modelos = [self.config.modelo]
-        if self.config.modelo_respaldo and self.config.modelo_respaldo != self.config.modelo:
-            modelos.append(self.config.modelo_respaldo)
+        modelos = list(dict.fromkeys([self.config.modelo, *self.config.modelos_respaldo]))
 
         for modelo in modelos:
+            if time.monotonic() < self._agotado_hasta.get(modelo, 0.0):
+                continue  # cuota diaria agotada o modelo no disponible: no se gasta una llamada en él
             for intento in range(self.config.max_reintentos + 1):
                 try:
                     r = await self._llamar(modelo, sistema, usuario, esquema_json)
@@ -91,12 +92,14 @@ class ClienteGemini:
                 except errors.APIError as e:
                     msg = f"{modelo}: error {e.code} {getattr(e, 'status', '') or ''}".strip()
                     if e.code not in REINTENTABLES:
-                        avisos.append(f"{msg} (no reintentable)")
+                        avisos.append(f"{msg} (no reintentable; se usa el respaldo)")
+                        self._agotado_hasta[modelo] = time.monotonic() + 3600
                         break
                     m = _RETRY_DELAY.search(str(e.details))
                     espera = float(m.group(1)) if m else min(2 ** intento * 2.0, 30.0) + random.uniform(0, 1.5)
                     if espera > MAX_ESPERA_S:
-                        avisos.append(f"{msg}: la API pide esperar {espera:.0f}s; se usa el respaldo")
+                        avisos.append(f"{msg}: cuota agotada (la API pide esperar {espera:.0f}s); se usa el respaldo")
+                        self._agotado_hasta[modelo] = time.monotonic() + espera
                         break
                     avisos.append(f"{msg}: reintento {intento + 1} en {espera:.1f}s")
                 except (asyncio.TimeoutError, TimeoutError):

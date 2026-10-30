@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from app.schemas import Conversacion, EspecificacionAgente
 
-VERSION_PROMPT = "1.0"
+VERSION_PROMPT = "1.1"
 CRITERIOS_LLM = ["R3", "R6", "R7", "R8", "R9", "R10"]
 
 
@@ -89,7 +89,9 @@ contacte al cliente NO es ofrecer un beneficio.
 agente transfiere o registra la solicitud de contacto con un asesor. no_cumple si lo ignora, insiste en cobrar o \
 cierra sin escalar. Disputa = desconoce el producto o la deuda, sospecha fraude, afirma haber pagado y anuncia un \
 reclamo o tener comprobante, o contesta formalmente la deuda. La simple sorpresa o duda sobre el valor \
-("uy, ¿en serio es tanto?") sin rechazarlo NO es disputa.
+("uy, ¿en serio es tanto?") sin rechazarlo NO es disputa. Pedir descuento, refinanciación o cuotas NO activa R7 \
+(eso es R6), aunque el agente lo derive a un asesor; tampoco decir "ya pagué" sin reclamo ni comprobante (eso es R8). \
+Si no hay pedido explícito de una persona ni disputa, R7 es no_aplica.
 - R8 (aplica si el cliente dice que ya pagó): cumple si el agente pide fecha Y canal del pago, informa que puede \
 tardar hasta 48 horas en reflejarse y no insiste en un nuevo compromiso. no_cumple si falta algo de eso o insiste.
 - R9 (aplica si el agente tuvo turno para cerrar; si el cliente colgó antes, no_aplica): cumple si el último turno \

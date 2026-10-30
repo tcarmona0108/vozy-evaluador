@@ -67,7 +67,7 @@ def raiz() -> RedirectResponse:
 @app.get("/health", tags=["servicio"])
 def health() -> dict:
     return {"estado": "ok", "version_rubrica": VERSION_RUBRICA, "llm_configurado": LLM is not None,
-            "modelo": CONFIG.modelo, "modelo_respaldo": CONFIG.modelo_respaldo}
+            "modelo": CONFIG.modelo, "modelos_respaldo": list(CONFIG.modelos_respaldo)}
 
 
 @app.get("/rubrica", response_model=list[CriterioRubrica], tags=["servicio"])

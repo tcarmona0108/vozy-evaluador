@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import logging
 import sys
@@ -17,7 +18,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from app.config import cargar_config  # noqa: E402
 from app.evaluator import Evaluador  # noqa: E402
 from app.llm.gemini import ClienteGemini  # noqa: E402
+from app.llm.base import RespuestaLLMCruda  # noqa: E402
 from app.schemas import ArchivoConversaciones, EspecificacionAgente  # noqa: E402
+
+
+class CacheDisco:
+    """Solo desarrollo: guarda la respuesta cruda del LLM por hash del prompt para re-medir sin gastar cuota
+    (el tier gratuito permite 20 solicitudes/día por modelo). Un cambio de prompt invalida la entrada."""
+
+    def __init__(self, llm, carpeta: Path):
+        self.llm, self.carpeta = llm, carpeta
+        self.modelo = llm.modelo
+        carpeta.mkdir(parents=True, exist_ok=True)
+
+    async def generar_json(self, sistema: str, usuario: str, esquema_json: dict) -> RespuestaLLMCruda:
+        clave = hashlib.sha256(json.dumps([sistema, usuario, esquema_json], sort_keys=True).encode()).hexdigest()
+        ruta = self.carpeta / f"{clave}.json"
+        if ruta.exists():
+            return RespuestaLLMCruda(**json.loads(ruta.read_text(encoding="utf-8")))
+        r = await self.llm.generar_json(sistema, usuario, esquema_json)
+        ruta.write_text(json.dumps(r.__dict__, ensure_ascii=False), encoding="utf-8")
+        return r
 
 
 def main() -> None:
@@ -25,6 +46,7 @@ def main() -> None:
     p.add_argument("--archivo", default="data/conversaciones_prueba_fde.json")
     p.add_argument("--ids", default="")
     p.add_argument("--salida", default="out/results_local.json")
+    p.add_argument("--sin-cache-disco", action="store_true")
     args = p.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
@@ -36,7 +58,10 @@ def main() -> None:
         ids = set(args.ids.split(","))
         archivo.conversaciones = [c for c in archivo.conversaciones if c.id in ids]
 
-    evaluador = Evaluador(ClienteGemini(config), spec)
+    llm = ClienteGemini(config)
+    if not args.sin_cache_disco:
+        llm = CacheDisco(llm, Path("out/llm_cache"))
+    evaluador = Evaluador(llm, spec)
     resultados = asyncio.run(evaluador.evaluar_lote(archivo, config.max_concurrencia, servicio="local"))
     salida = Path(args.salida)
     salida.parent.mkdir(parents=True, exist_ok=True)
