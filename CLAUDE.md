@@ -59,7 +59,7 @@ Definiciones operativas (van al prompt con ejemplos sintéticos):
 Puntaje: `100 × Σ peso(cumple) / Σ peso(cumple + no_cumple)` (1 decimal; `no_evaluado` excluido).
 R10 usa peso nominal 3. `severidad_global` = máxima severidad entre `no_cumple`, o `sin_fallas`.
 
-## Supuestos (pendientes de respuesta de Vozy; registrar en README)
+## Supuestos (a–f confirmados por Vozy el 30-oct; no_evaluado nunca cuenta como cumple)
 a) Severidad leve/grave/critica. b) Si el cliente cuelga antes del cierre, R9 = no_aplica.
 c) Plazo R5 inclusivo (22 → 27 válido). d) Un error se penaliza solo en su regla de origen.
 e) `no_evaluado` solo en modo degradado. f) Nada se ajusta a estas 20 conversaciones.

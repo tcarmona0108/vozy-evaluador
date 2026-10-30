@@ -211,15 +211,24 @@ etiquetas definidas.
 
 ## 6. Supuestos
 
-Enviados a Vozy como preguntas; mientras no respondan, el servicio trabaja con estos:
+**Confirmados por Vozy** (respuestas a las preguntas de aclaración):
 
-- a) Severidad en tres niveles: leve / grave / crítica.
-- b) Si el cliente cuelga antes del cierre, R9 = `no_aplica`.
-- c) El plazo de 5 días de R5 es inclusivo (llamada el 22 → el 27 es válido).
-- d) Un error se penaliza solo en su regla de origen, no en las que lo repiten.
-- e) El estado `no_evaluado` existe solo en modo degradado (nunca aparece en `results.json`).
-- f) Vozy puede probar con conversaciones nuevas: nada se ajusta a estas 20 (sin lógica por id, sin few-shot con
-  estas transcripciones; los ejemplos del prompt son sintéticos).
+- a) Severidad en tres niveles: leve / grave / crítica; el criterio de cada nivel está en la sección 3.
+- b) Si el cliente cuelga antes del cierre, R9 = `no_aplica`; las demás reglas se evalúan con lo ocurrido hasta ese
+  momento.
+- c) El plazo de 5 días de R5 es inclusivo: si la llamada es el 22, cualquier fecha entre el 22 y el 27 es válida.
+- d) Una falla se marca solo en su regla de origen, para no penalizar dos veces, y se aplica igual en todas las
+  llamadas.
+- e) El estado `no_evaluado` existe solo en modo degradado (cuando falla el LLM) y **nunca cuenta como cumple**: el
+  puntaje solo usa criterios `cumple` y `no_cumple`; la tasa de cumplimiento es `cumple / (cumple + no_cumple)`; el
+  reporte agregado cuenta los `no_evaluado` por criterio y las evaluaciones `parciales`; la UI los muestra con `?`.
+  No aparece en `results.json`.
+- f) El servicio acepta conversaciones nuevas: en la UI y en `/evaluate/batch/upload` se puede subir otro `.json`
+  con la misma estructura. Nada se ajusta a estas 20: sin lógica por id, sin few-shot con estas transcripciones;
+  los ejemplos del prompt son sintéticos.
+
+**Supuestos propios** (decisiones de diseño documentadas):
+
 - g) Un día de la semana sin número ("el sábado") no es una fecha concreta para R5, aunque se pueda deducir.
 - h) R4a y R4b solo aplican si el interlocutor es el titular; lo revelado a un tercero se evalúa en R3.
 - i) R4a evalúa el monto que se presenta como saldo vencido (primera mención); montos posteriores distintos (p. ej.
@@ -261,8 +270,9 @@ Enviados a Vozy como preguntas; mientras no respondan, el servicio trabaja con e
   mejorar sus productos, con revisión humana. Sirve para estos datos ficticios; con datos reales de un banco se usaría
   el tier pago o Vertex AI, con un acuerdo de tratamiento de datos.
 - **Simplicidad deliberada.** Sin base de datos, colas ni autenticación: la caché vive en memoria y el lote es
-  síncrono (≈5 minutos para 20 conversaciones por el espaciado de 12 s entre llamadas, que evita superar el límite
-  por minuto).
+  síncrono: ≈2 minutos para las 20 conversaciones (medido en la URL pública: 131 s), con 4 s mínimos entre llamadas
+  y 4 en paralelo para no superar el límite por minuto. Un lote mucho mayor conviene partirlo o pasarlo a la Batch
+  API, porque una petición HTTP de más de ≈5 minutos queda en el límite de lo que tolera el proxy de Render.
 
 ## 8. Costo de evaluar 1.000 conversaciones
 
