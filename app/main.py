@@ -5,7 +5,7 @@ import json
 import logging
 import os
 
-from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from pydantic import ValidationError
@@ -95,7 +95,8 @@ async def evaluate_batch_upload(request: Request, archivo: UploadFile = File(...
     try:
         contenido = json.loads((await archivo.read()).decode("utf-8-sig"))
     except (UnicodeDecodeError, json.JSONDecodeError) as e:
-        raise HTTPException(status_code=422, detail=f"el archivo no es JSON válido: {e}") from e
+        return JSONResponse(status_code=422, content={"error": "entrada inválida", "detalle": [
+            {"ubicacion": "archivo", "mensaje": f"el archivo no es JSON válido: {e}"}]})
     try:
         datos = ArchivoConversaciones.model_validate(contenido)
     except ValidationError as e:

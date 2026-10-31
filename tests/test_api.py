@@ -65,7 +65,7 @@ def test_evaluate_entrada_invalida_422(cliente, cuerpo):
 
 def test_upload_no_json_422(cliente):
     r = cliente.post("/evaluate/batch/upload", files={"archivo": ("a.json", b"{no json", "application/json")})
-    assert r.status_code == 422
+    assert r.status_code == 422 and r.json()["error"] == "entrada inválida"
     r = cliente.post("/evaluate/batch/upload", files={"archivo": ("a.json", b'{"conversaciones": []}', "application/json")})
     assert r.status_code == 422
 
