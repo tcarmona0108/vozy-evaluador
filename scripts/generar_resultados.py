@@ -1,6 +1,6 @@
 """Genera results.json llamando a la URL PÚBLICA del servicio (prueba de que lo produjo el despliegue).
 
-Uso: python scripts/generar_resultados.py --url https://usuario-space.hf.space [--archivo data/...json]
+Uso: python scripts/generar_resultados.py --url https://vozy-evaluador-lina.onrender.com [--archivo data/...json]
                                           [--salida results.json] [--intentos 3]
 
 Si alguna conversación vuelve en estado "parcial" (cuota o caída del LLM), reintenta el lote: las

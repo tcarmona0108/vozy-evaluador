@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-# Hugging Face Spaces ejecuta el contenedor con UID 1000.
+# Usuario sin privilegios: el servicio no corre como root.
 RUN useradd -m -u 1000 user
 USER user
 ENV HOME=/home/user \

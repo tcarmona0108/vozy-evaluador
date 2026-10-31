@@ -6,6 +6,10 @@ contra una rúbrica de **13 criterios** derivada de las reglas R1–R10. Por cad
 conversación, un puntaje global y una severidad; y para el lote, un reporte agregado (tasa de cumplimiento por
 criterio y fallas más frecuentes).
 
+Todo `no_cumple` trae al menos una cita (en una omisión, el turno donde se hace evidente). Un `cumple` trae la frase
+que lo demuestra; la excepción es R10 cuando no hubo ninguna amenaza ni presión: una ausencia no tiene frase que
+citar, y la explicación lo dice. `no_aplica` no lleva cita.
+
 | | Enlace |
 |---|---|
 | Servicio (UI) | https://vozy-evaluador-lina.onrender.com/ui |
@@ -83,7 +87,7 @@ py -3.12 -m venv .venv
 .venv/Scripts/python -m pip install -r requirements-dev.txt     # en Linux/Mac: .venv/bin/python
 cp .env.example .env                                             # y completa GEMINI_API_KEY
 .venv/Scripts/python -m uvicorn app.main:app --port 7860         # http://localhost:7860/ui y /docs
-.venv/Scripts/python -m pytest -q                                # 97 tests, sin red (LLM simulado)
+.venv/Scripts/python -m pytest -q                                # 98 tests, sin red (LLM simulado)
 ```
 
 Con Docker: `docker build -t evaluador . && docker run -p 7860:7860 --env-file .env evaluador`.
@@ -164,7 +168,9 @@ deja constancia. Nunca se publica una cita inventada.
 API; si la API pide esperar más de 60 s (cuota diaria agotada) se pasa al siguiente modelo de la cadena y ese modelo
 se salta hasta que se renueve su cuota. Si la respuesta no valida, se reintenta una vez enviando el error. Si todo
 falla, **modo degradado**: los criterios de código se evalúan igual, los semánticos quedan `no_evaluado`,
-`estado_evaluacion = "parcial"` y el error queda en `metadatos.errores`, con respuesta 200 y el mismo esquema. En un
+`estado_evaluacion = "parcial"` y el error queda en `metadatos.errores`, con respuesta 200 y el mismo esquema
+(`metadatos.errores` también registra los modelos que se saltaron por cuota aunque la evaluación sea completa, como
+en C01 y C02 de `results.json`). En un
 lote, una conversación que falla no detiene las demás (semáforo `MAX_CONCURRENCY`). Caché en memoria por hash de
 conversación, especificación, versión de rúbrica y de prompt, y modelo.
 
@@ -271,7 +277,8 @@ etiquetas definidas.
   el tier pago o Vertex AI, con un acuerdo de tratamiento de datos.
 - **Simplicidad deliberada.** Sin base de datos, colas ni autenticación: la caché vive en memoria y el lote es
   síncrono: ≈2 minutos para las 20 conversaciones (medido en la URL pública: 131 s), con 4 s mínimos entre llamadas
-  y 4 en paralelo para no superar el límite por minuto. Un lote mucho mayor conviene partirlo o pasarlo a la Batch
+  y 4 en paralelo para no superar el límite por minuto. Cuando los primeros modelos de la cadena tienen la cuota
+  agotada sube a ≈5 minutos (el `results.json` entregado tardó 290 s). Un lote mucho mayor conviene partirlo o pasarlo a la Batch
   API, porque una petición HTTP de más de ≈5 minutos queda en el límite de lo que tolera el proxy de Render.
 
 ## 8. Costo de evaluar 1.000 conversaciones

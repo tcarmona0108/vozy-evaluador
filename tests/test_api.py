@@ -70,6 +70,17 @@ def test_upload_no_json_422(cliente):
     assert r.status_code == 422
 
 
+def test_evaluate_reusa_la_cache_del_lote(monkeypatch):
+    from tests.test_evaluator import LLMFalso, respuesta
+    llm = LLMFalso([respuesta()])
+    monkeypatch.setattr(main, "EVALUADOR", Evaluador(llm, main.SPEC_DEFECTO))
+    cliente = TestClient(main.app)
+    conv = FIX["conversaciones"][0]
+    assert cliente.post("/evaluate/batch", json={"conversaciones": [conv]}).status_code == 200
+    r = cliente.post("/evaluate", json=conv)
+    assert r.status_code == 200 and r.json()["metadatos"]["desde_cache"] is True and llm.llamadas == 1
+
+
 def test_batch_ids_repetidos_422(cliente):
     conv = FIX["conversaciones"][0]
     r = cliente.post("/evaluate/batch", json={"conversaciones": [conv, conv]})

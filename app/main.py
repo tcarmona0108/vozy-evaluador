@@ -15,8 +15,8 @@ from app.evaluator import Evaluador
 from app.llm.base import ErrorLLM
 from app.llm.gemini import ClienteGemini
 from app.rubric import RUBRICA, VERSION_RUBRICA, CriterioRubrica
-from app.schemas import (ArchivoConversaciones, EspecificacionAgente, EvaluacionConversacion, ResultadosLote,
-                         SolicitudEvaluacion)
+from app.schemas import (ArchivoConversaciones, Conversacion, EspecificacionAgente, EvaluacionConversacion,
+                         ResultadosLote, SolicitudEvaluacion)
 
 logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -78,7 +78,9 @@ def rubrica() -> list[CriterioRubrica]:
 @app.post("/evaluate", response_model=EvaluacionConversacion, tags=["evaluación"])
 async def evaluate(solicitud: SolicitudEvaluacion) -> EvaluacionConversacion:
     """Evalúa una conversación (mismo formato de cada elemento de `conversaciones` del archivo)."""
-    return await EVALUADOR.evaluar(solicitud, solicitud.especificacion_agente)
+    # Se separa la especificación para que la misma conversación comparta caché con el lote.
+    conv = Conversacion.model_validate(solicitud.model_dump(exclude={"especificacion_agente"}))
+    return await EVALUADOR.evaluar(conv, solicitud.especificacion_agente)
 
 
 @app.post("/evaluate/batch", response_model=ResultadosLote, tags=["evaluación"])

@@ -120,7 +120,8 @@ def _resumen_html(res: ResultadosLote) -> str:
     kpis = [(rep.total_conversaciones, "conversaciones"), (rep.puntaje_promedio if rep.puntaje_promedio is not None else "-",
             "puntaje promedio"), (tasa, "cumplimiento de criterios"), (len(rep.conversaciones_criticas),
             "llamadas con falla crítica")]
-    tarjetas = "".join(f'<div class="vz-kpi"><div class="v">{v}</div><div class="l">{l}</div></div>' for v, l in kpis)
+    tarjetas = "".join(f'<div class="vz-kpi"><div class="v">{v}</div><div class="l">{etiqueta}</div></div>'
+                       for v, etiqueta in kpis)
     estilos = {"sin_fallas": (LIMA, NEGRO), "leve": ("#E8E8E8", NEGRO), "grave": ("#FFB020", NEGRO),
                "critica": ("#FF4D6D", "#FFFFFF")}
     sev = "".join(f'<span style="background:{estilos[k][0]};color:{estilos[k][1]}">{k.replace("_", " ")}: {n}</span>'
@@ -159,10 +160,10 @@ def crear_ui(evaluador: Evaluador, ruta_dataset: Path, max_concurrencia: int) ->
         try:
             archivo = ArchivoConversaciones.model_validate(json.loads(ruta.read_text(encoding="utf-8-sig")))
         except (json.JSONDecodeError, UnicodeDecodeError) as e:
-            raise gr.Error(f"El archivo no es JSON válido: {e}")
+            raise gr.Error(f"El archivo no es JSON válido: {e}") from e
         except ValidationError as e:
             err = e.errors()[0]
-            raise gr.Error(f"Formato inválido en {'.'.join(str(x) for x in err['loc'])}: {err['msg']}")
+            raise gr.Error(f"Formato inválido en {'.'.join(str(x) for x in err['loc'])}: {err['msg']}") from e
         res = await evaluador.evaluar_lote(archivo, max_concurrencia, servicio="ui")
         por_conv, detalle, agregado = _tablas(res)
         salida = Path(tempfile.mkdtemp()) / "results.json"

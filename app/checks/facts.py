@@ -242,6 +242,10 @@ def resultado(criterio_id: str, res: str, evidencia: list[Cita], explicacion: st
                              metodo=metodo or c.metodo)
 
 
+def _enumerar(partes: list[str]) -> str:
+    return partes[0] if len(partes) == 1 else f"{', '.join(partes[:-1])} ni {partes[-1]}"
+
+
 def _cita(tr: list[Turno], m: Mencion) -> Cita:
     return cita_turno(tr, m.turno, m.texto)
 
@@ -255,15 +259,15 @@ def criterios_codigo(conv: Conversacion, h: HechosCodigo, es_titular: bool | Non
     omision = [cita_turno(tr, primer_agente)]
 
     # R1a
-    faltan = [n for n, v in (("el nombre Lina", h.lina), ("que es asistente virtual", h.asistente_virtual),
-                             ("Banco Andino", h.empresa)) if v is None]
+    faltan = [n for n, v in (("su nombre (Lina)", h.lina), ("que es un asistente virtual", h.asistente_virtual),
+                             ("la entidad (Banco Andino)", h.empresa)) if v is None]
     if not faltan:
         ev = list({m.turno: _cita(tr, m) for m in (h.lina, h.asistente_virtual, h.empresa)}.values())
         out["R1a"] = resultado("R1a", "cumple", ev, "Se presenta como Lina, asistente virtual de Banco Andino, "
                                                     "al inicio de la llamada.")
     else:
         out["R1a"] = resultado("R1a", "no_cumple", omision,
-                               f"En sus primeros turnos no menciona {', '.join(faltan)}.")
+                               f"En sus primeros turnos no indica {_enumerar(faltan)}.")
     # R1b
     if h.grabacion:
         out["R1b"] = resultado("R1b", "cumple", [_cita(tr, h.grabacion)], "Informa que la llamada está siendo grabada.")
