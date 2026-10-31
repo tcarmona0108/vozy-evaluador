@@ -13,7 +13,7 @@ criterio y fallas más frecuentes).
 | Repositorio | https://github.com/tcarmona0108/vozy-evaluador |
 | Resultados de las 20 conversaciones | [`results.json`](results.json) |
 | Hallazgos para Banco Andino | [`HALLAZGOS.md`](HALLAZGOS.md) |
-| Video | _(enlace de Loom)_ |
+| Video | https://youtu.be/87LBbySRHqQ |
 
 > **Primera petición lenta:** el servicio corre en el plan gratuito de Render, que lo suspende tras 15 minutos sin
 > tráfico. La primera petición tarda ≈1 minuto en despertarlo; después responde normalmente.
